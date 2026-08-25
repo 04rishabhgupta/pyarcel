@@ -1,0 +1,163 @@
+import { PyarcelPayload } from "@/lib/compression";
+import { getMenuItem } from "@/lib/data";
+import styles from "./ReceiptCard.module.css";
+
+export default function ReceiptCard({ payload }: { payload: PyarcelPayload }) {
+  const date = new Date(payload.ts);
+  const formattedDate = date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  }).toUpperCase();
+  
+  const formattedTime = date.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  return (
+    <div className={styles.receiptWrapper}>
+      <div className={styles.header}>
+        <h2 className={styles.brand}>PYARCEL</h2>
+        <div className={styles.subBrand}>PACKED WITH LOVE</div>
+      </div>
+
+      <div className={styles.divider} />
+
+      <div className={styles.row}>
+        <span className={styles.label}>ORDER #</span>
+        <span className={styles.value}>{payload.id}</span>
+      </div>
+      <div className={styles.row}>
+        <span className={styles.label}>DATE</span>
+        <span className={styles.value}>{formattedDate} {formattedTime}</span>
+      </div>
+      <div className={styles.row}>
+        <span className={styles.label}>TYPE</span>
+        <span className={styles.value}>DIGITAL DELIVERY</span>
+      </div>
+
+      <div className={styles.divider} />
+
+      <div className={styles.row}>
+        <span className={styles.label}>ORDERED BY</span>
+        <span className={styles.value}>{payload.a ? "SOMEONE SPECIAL" : payload.s.toUpperCase()}</span>
+      </div>
+      <div className={styles.row}>
+        <span className={styles.label}>DELIVER TO</span>
+        <span className={styles.value}>{payload.r.toUpperCase()}</span>
+      </div>
+      {payload.rel && (
+        <div className={styles.row}>
+          <span className={styles.label}>RELATIONSHIP</span>
+          <span className={styles.value}>{payload.rel.toUpperCase()}</span>
+        </div>
+      )}
+      <div className={styles.row}>
+        <span className={styles.label}>DESTINATION</span>
+        <span className={styles.value}>{payload.d.toUpperCase()}</span>
+      </div>
+
+      <div className={styles.divider} />
+      
+      <div className={styles.sectionTitle}>ITEMS</div>
+      
+      {Object.entries(payload.i).map(([id, qty]) => {
+        const item = getMenuItem(id);
+        if (!item) return null;
+        
+        return (
+          <div key={id} className={styles.itemRow}>
+            <div className={styles.itemQtyName}>
+              <span className={styles.itemQty}>{item.isUnlimited ? "∞" : qty} x</span>
+              <span className={styles.itemName}>{item.name}</span>
+            </div>
+            <span className={styles.itemPrice}>₹0.00</span>
+          </div>
+        );
+      })}
+
+      <div className={styles.divider} />
+
+      <div className={styles.sectionTitle}>BILL DETAILS</div>
+      <div className={styles.billRow}>
+        <span>Item Total</span>
+        <span>₹0.00</span>
+      </div>
+      <div className={styles.billRow}>
+        <span>Love Tax</span>
+        <span>₹0.00</span>
+      </div>
+      <div className={styles.billRow}>
+        <span>Platform Fee</span>
+        <span>₹999.00</span>
+      </div>
+      <div className={styles.billRow}>
+        <span>Platform Discount</span>
+        <span>-₹999.00</span>
+      </div>
+      <div className={styles.billRow}>
+        <span>Delivery Fee</span>
+        <span>₹49.00</span>
+      </div>
+      <div className={styles.billRow}>
+        <span>Cupid Discount</span>
+        <span>-₹49.00</span>
+      </div>
+
+      <div className={styles.divider} />
+      
+      <div className={`${styles.billRow} ${styles.billTotal}`}>
+        <span>TOTAL</span>
+        <span>₹0.00</span>
+      </div>
+      
+      <div className={styles.row} style={{ marginTop: '16px' }}>
+        <span className={styles.label}>PAYMENT METHOD</span>
+        <span className={styles.value}>PURE FEELINGS ❤️</span>
+      </div>
+
+      <div className={styles.divider} />
+
+      <div className={styles.row}>
+        <span className={styles.label}>DELIVERY PARTNER</span>
+        <span className={styles.value}>CUPID</span>
+      </div>
+      <div className={styles.row}>
+        <span className={styles.label}>EST. DELIVERY</span>
+        <span className={styles.value}>RIGHT NOW</span>
+      </div>
+      <div className={styles.row}>
+        <span className={styles.label}>DISTANCE</span>
+        <span className={styles.value}>3,742 HEARTBEATS</span>
+      </div>
+
+      <div className={styles.divider} />
+
+      <div className={styles.footer}>
+        <div style={{ marginBottom: 16 }}>
+          NO REFUNDS.<br />
+          ONLY MORE LOVE.
+        </div>
+        <div className={styles.divider} />
+        <div className={styles.stars}>★★★★★</div>
+        <div>WOULD ORDER AGAIN.</div>
+      </div>
+
+      {payload.m && (
+        <>
+          <div className={styles.divider} />
+          <div className={styles.sectionTitle} style={{ textAlign: 'center' }}>MESSAGE FROM SENDER</div>
+          <div className={styles.messageSection}>
+            "{payload.m}"
+          </div>
+        </>
+      )}
+
+      <div className={styles.divider} />
+      <div style={{ textAlign: 'center', marginTop: 16, fontWeight: 'bold' }}>
+        ORDER DELIVERED ❤️
+      </div>
+    </div>
+  );
+}

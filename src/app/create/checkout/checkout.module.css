@@ -1,0 +1,93 @@
+.processingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--muted);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 32px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.processingStage {
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+  color: var(--foreground);
+  min-height: 2.5rem;
+}
+
+.progressBar {
+  width: 100%;
+  height: 6px;
+  background-color: var(--muted);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background-color: var(--primary);
+  border-radius: 100px;
+  transition: width 0.5s ease;
+}
+
+.summaryCard {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.summaryRow:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.summaryLabel {
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+}
+
+.summaryValue {
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.paymentSection {
+  margin-top: 16px;
+}
+
+.paymentTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.paymentMethod {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: #fffaf9;
+  border: 1px solid var(--primary);
+  border-radius: var(--radius);
+}

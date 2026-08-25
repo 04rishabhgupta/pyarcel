@@ -1,0 +1,179 @@
+.createLayout {
+  min-height: 100vh;
+  background-color: var(--background);
+  padding: 40px 20px;
+}
+
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 80px); /* Account for padding */
+}
+
+/* Shared UI elements for the flow */
+.flowHeader {
+  margin-bottom: 32px;
+}
+
+.flowTitle {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  color: var(--foreground);
+}
+
+.flowSubtitle {
+  font-size: 1rem;
+  color: var(--muted-foreground);
+}
+
+.flowContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.flowFooter {
+  margin-top: 40px;
+  padding-bottom: 20px;
+}
+
+/* Base form elements */
+.input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 1rem;
+  background: white;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(242, 132, 130, 0.1);
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 16px;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-md);
+  border: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(242, 132, 130, 0.3);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.buttonSecondary {
+  background-color: var(--muted);
+  color: var(--foreground);
+  box-shadow: none;
+}
+
+.buttonSecondary:hover {
+  background-color: #ebe6de;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.selectorButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 20px;
+  background-color: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--foreground);
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.selectorButton:hover {
+  border-color: var(--primary);
+  background-color: #fffaf9;
+}
+
+.selectorButton.selected {
+  border-color: var(--primary);
+  background-color: #fffaf9;
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+/* Radio Cards (for destination etc) */
+.radioGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.radioCard {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.radioCard:hover {
+  border-color: var(--primary);
+  background-color: #fffaf9;
+}
+
+.radioCard.selected {
+  border-color: var(--primary);
+  background-color: #fffaf9;
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.radioIcon {
+  font-size: 1.5rem;
+}

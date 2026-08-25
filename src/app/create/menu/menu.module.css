@@ -1,0 +1,234 @@
+.menuContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background);
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  background: rgba(255, 252, 249, 0.9);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.headerTitle {
+  font-size: 1.5rem;
+  color: var(--foreground);
+  margin-bottom: 4px;
+}
+
+.headerSubtitle {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.categoriesWrapper {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 16px 20px;
+  background: white;
+  border-bottom: 1px solid var(--border);
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.categoriesWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.categoryButton {
+  display: inline-block;
+  padding: 8px 16px;
+  margin-right: 12px;
+  border-radius: 100px;
+  background-color: var(--muted);
+  color: var(--foreground);
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.categoryButton.active {
+  background-color: var(--primary);
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.menuContent {
+  flex: 1;
+  padding: 20px;
+  padding-bottom: 100px; /* Space for sticky cart */
+}
+
+.categorySection {
+  margin-bottom: 32px;
+}
+
+.categoryTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--foreground);
+}
+
+.itemCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
+}
+
+.itemCard:hover {
+  border-color: var(--primary);
+}
+
+.itemInfo {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.itemIcon {
+  font-size: 2rem;
+  background: var(--muted);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.itemDetails {
+  flex: 1;
+}
+
+.itemName {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--foreground);
+  margin-bottom: 4px;
+}
+
+.itemDescription {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  margin-bottom: 8px;
+}
+
+.itemPrice {
+  font-family: var(--font-geist-mono);
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.addBtn {
+  padding: 8px 16px;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  background: white;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.addBtn:hover {
+  background: #fffaf9;
+}
+
+.addBtn.added {
+  background: var(--primary);
+  color: white;
+}
+
+.quantityControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+
+.qtyBtn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.qtyBtn:hover {
+  background: #fffaf9;
+}
+
+.qtyValue {
+  font-weight: 600;
+  color: var(--primary);
+  min-width: 16px;
+  text-align: center;
+}
+
+/* Sticky Cart Footer */
+.stickyCart {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 20px;
+  background: white;
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 20;
+}
+
+.cartInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.cartItems {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.cartSubtext {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.viewCartBtn {
+  padding: 12px 24px;
+  background: var(--primary);
+  color: white;
+  border-radius: 100px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.2s;
+}
+
+.viewCartBtn:hover {
+  background: var(--primary-hover);
+}
