@@ -6,14 +6,9 @@ import { useOrder } from "@/lib/store";
 import styles from "./checkout.module.css";
 import globalStyles from "../create.module.css";
 import { encodePayload } from "@/lib/compression";
-import dynamic from "next/dynamic";
 import { QRCodeSVG } from 'qrcode.react';
 import { getMenuItem } from "@/lib/data";
-
-const HeartbeatSpinner = dynamic(
-  () => import("fancy-react-ui").then((mod) => mod.HeartbeatSpinner),
-  { ssr: false }
-);
+import HeartLoader from "@/components/ui/HeartLoader";
 
 const STAGES = [
   "Order Confirmed",
@@ -83,7 +78,9 @@ export default function CheckoutPage() {
   if (isProcessing) {
     return (
       <div className={styles.processingContainer}>
-        <HeartbeatSpinner size={64} color="var(--foreground)" style={{ marginBottom: "32px" }} />
+        <div style={{ marginBottom: '32px' }}>
+          <HeartLoader size={64} />
+        </div>
         <h2 className={`font-serif ${styles.processingStage}`}>
           {STAGES[currentStage]}
         </h2>
