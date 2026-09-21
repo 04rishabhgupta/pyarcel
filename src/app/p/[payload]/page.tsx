@@ -28,7 +28,7 @@ export default function RecipientPage({ params }: { params: Promise<{ payload: s
 
   if (error) {
     return (
-      <div className={globalStyles.flowContent} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', textAlign: 'center' }}>
+      <div className={globalStyles.flowContent} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', textAlign: 'center', padding: '40px 20px' }}>
         <div>
           <h2 className={`font-serif ${globalStyles.flowTitle}`}>This Pyarcel couldn't be found</h2>
           <p className={globalStyles.flowSubtitle} style={{ marginTop: '16px' }}>Looks like Cupid dropped the parcel.</p>
@@ -50,7 +50,7 @@ export default function RecipientPage({ params }: { params: Promise<{ payload: s
 
   if (!isOpened) {
     return (
-      <div className={globalStyles.flowContent} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', textAlign: 'center' }}>
+      <div className={globalStyles.flowContent} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', textAlign: 'center', padding: '40px 20px' }}>
         <div className={styles.introContainer}>
           <span className={styles.introIcon}>📦</span>
           <h1 className={`font-serif ${globalStyles.flowTitle}`}>
@@ -67,7 +67,7 @@ export default function RecipientPage({ params }: { params: Promise<{ payload: s
   }
 
   return (
-    <div className={globalStyles.flowContent} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh', paddingTop: '40px' }}>
+    <div className={globalStyles.flowContent} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh', paddingTop: '40px', paddingLeft: '20px', paddingRight: '20px' }}>
       <div className={styles.receiptReveal}>
         <ReceiptCard payload={data} />
         
