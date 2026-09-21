@@ -24,6 +24,7 @@ export default function ReceiptCard({ payload }: { payload: PyarcelPayload }) {
 
   return (
     <div className={styles.receiptWrapper}>
+      <div className={styles.watermark}>❤️</div>
       <div className={styles.header}>
         <h2 className={styles.brand}>PYARCEL</h2>
         <div className={styles.subBrand}>PACKED WITH LOVE</div>
@@ -136,23 +137,27 @@ export default function ReceiptCard({ payload }: { payload: PyarcelPayload }) {
 
       <div className={styles.footer}>
         <div style={{ marginBottom: 16 }}>
-          NO REFUNDS.<br />
-          ONLY MORE LOVE.
+          100% NON-REFUNDABLE LOVE.
         </div>
         <div className={styles.divider} />
-        <div className={styles.stars}>★★★★★</div>
+        <div className={styles.stars}>♥ ♥ ♥ ♥ ♥</div>
         <div>WOULD ORDER AGAIN.</div>
       </div>
 
       {payload.m && (
         <>
           <div className={styles.divider} />
-          <div className={styles.sectionTitle} style={{ textAlign: 'center' }}>MESSAGE FROM SENDER</div>
+          <div className={styles.sectionTitle}>MESSAGE FROM SENDER</div>
           <div className={styles.messageSection}>
             "{payload.m}"
           </div>
         </>
       )}
+
+      <div className={styles.barcodeContainer}>
+        <div className={styles.barcodeLines}></div>
+        <div className={styles.barcodeText}>{payload.id}</div>
+      </div>
 
       <div className={styles.divider} />
       <div style={{ textAlign: 'center', marginTop: 16, fontWeight: 'bold' }}>

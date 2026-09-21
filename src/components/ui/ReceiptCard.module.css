@@ -1,22 +1,21 @@
 .receiptWrapper {
-  background: var(--receipt-bg);
-  color: var(--receipt-text);
-  font-family: var(--font-geist-mono);
+  background: #fcf8f2;
+  color: #111;
+  font-family: 'Courier New', Courier, monospace;
   padding: 32px 24px;
   width: 100%;
-  max-width: 400px;
+  max-width: 350px;
   margin: 0 auto;
-  box-shadow: var(--shadow-receipt);
   position: relative;
-  /* Thermal paper jagged edge top */
+  /* Jagged edge top */
   background-image: 
     linear-gradient(to right, transparent 50%, rgba(0,0,0,0.02) 50%),
-    radial-gradient(circle at 10px 0, transparent 10px, var(--receipt-bg) 11px);
+    radial-gradient(circle at 10px 0, transparent 10px, #fcf8f2 11px);
   background-size: 100% 100%, 20px 20px;
   background-position: 0 0, 0 0;
   background-repeat: no-repeat, repeat-x;
-  border-bottom: 2px dashed #e5e5e5;
-  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1));
+  z-index: 1;
 }
 
 .receiptWrapper::after {
@@ -28,7 +27,18 @@
   height: 10px;
   background-size: 20px 20px;
   background-repeat: repeat-x;
-  background-image: radial-gradient(circle at 10px 10px, var(--receipt-bg) 10px, transparent 11px);
+  background-image: radial-gradient(circle at 10px 10px, #fcf8f2 10px, transparent 11px);
+}
+
+.watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 15rem;
+  color: rgba(255, 105, 132, 0.05); /* very faint pink */
+  z-index: -1;
+  pointer-events: none;
 }
 
 .header {
@@ -37,57 +47,57 @@
 }
 
 .brand {
-  font-family: var(--font-serif);
-  font-size: 2rem;
-  letter-spacing: 0.1em;
+  font-size: 2.2rem;
+  letter-spacing: 2px;
   margin-bottom: 4px;
-  font-weight: normal;
+  font-weight: bold;
 }
 
 .subBrand {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 1px;
 }
 
 .divider {
   border-top: 1px dashed #000;
   margin: 16px 0;
-  opacity: 0.3;
+  opacity: 0.4;
 }
 
 .row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 8px;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
 }
 
 .label {
   text-transform: uppercase;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 .value {
-  font-weight: 600;
+  font-weight: bold;
   text-align: right;
-  max-width: 60%;
+  max-width: 65%;
   word-wrap: break-word;
 }
 
 .sectionTitle {
-  margin: 16px 0 12px;
-  font-size: 0.875rem;
+  margin: 20px 0 12px;
+  font-size: 1rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  opacity: 0.7;
+  letter-spacing: 1px;
+  text-align: center;
+  font-weight: bold;
 }
 
 .itemRow {
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   align-items: flex-start;
 }
 
@@ -105,28 +115,23 @@
   text-transform: uppercase;
 }
 
-.itemPrice {
-  margin-left: 12px;
-}
-
 .billRow {
   display: flex;
   justify-content: space-between;
   margin-bottom: 8px;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
 }
 
 .billTotal {
   font-weight: bold;
-  font-size: 1.125rem;
-  margin-top: 8px;
+  font-size: 1.2rem;
+  margin-top: 12px;
 }
 
 .messageSection {
   margin-top: 24px;
   text-align: center;
   font-style: italic;
-  font-family: var(--font-geist-sans);
   font-size: 1rem;
   line-height: 1.5;
   white-space: pre-wrap;
@@ -137,11 +142,44 @@
 .footer {
   text-align: center;
   margin-top: 32px;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
 }
 
 .stars {
   font-size: 1.25rem;
   margin-bottom: 8px;
-  letter-spacing: 2px;
+  letter-spacing: 4px;
+}
+
+.barcodeContainer {
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+.barcodeLines {
+  width: 100%;
+  height: 40px;
+  background: 
+    repeating-linear-gradient(
+      to right,
+      #111 0,
+      #111 2px,
+      transparent 2px,
+      transparent 4px,
+      #111 4px,
+      #111 5px,
+      transparent 5px,
+      transparent 8px,
+      #111 8px,
+      #111 12px,
+      transparent 12px,
+      transparent 16px
+    );
+}
+
+.barcodeText {
+  text-align: center;
+  font-size: 0.8rem;
+  margin-top: 4px;
+  letter-spacing: 4px;
 }
