@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useOrder } from "@/lib/store";
 import { getMenuItem } from "@/lib/data";
 import styles from "./cart.module.css";
-import { ArrowLeft, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import globalStyles from "../create.module.css";
 
 export default function CartPage() {
@@ -17,17 +17,19 @@ export default function CartPage() {
 
   if (cartTotalItems === 0) {
     return (
-      <div className={styles.emptyState}>
-        <div className={styles.emptyIcon}>🥺</div>
-        <h2 className="font-serif text-2xl">Your Pyarcel is empty</h2>
-        <p className="text-muted-foreground">Add a little love to get started.</p>
-        <button 
-          className={globalStyles.button} 
-          onClick={() => router.push("/create/menu")}
-          style={{ marginTop: '24px' }}
-        >
-          BROWSE FEELINGS
-        </button>
+      <div className={globalStyles.flowContent}>
+        <div className={styles.emptyState}>
+          <div className={styles.emptyIcon}>🥺</div>
+          <h2 className="font-serif italic text-3xl">Your Pyarcel is empty</h2>
+          <p className={globalStyles.flowSubtitle}>Add a little love to get started.</p>
+          <button 
+            className={globalStyles.button} 
+            onClick={() => router.push("/create/menu")}
+            style={{ marginTop: '24px' }}
+          >
+            BROWSE FEELINGS
+          </button>
+        </div>
       </div>
     );
   }
@@ -42,21 +44,18 @@ export default function CartPage() {
   const cutenessFee = finalTotal - itemTotal;
 
   return (
-    <div className={styles.cartPage}>
-      <div className={styles.cartContainer}>
-        <div className={styles.cartHeader}>
-          <button onClick={() => router.back()} style={{ color: 'var(--foreground)' }}>
-            <ArrowLeft size={24} />
-          </button>
-          <h1 className={`font-serif ${styles.cartTitle}`}>Your Pyarcel</h1>
-        </div>
+    <>
+      <div className={globalStyles.flowHeader}>
+        <h1 className={`font-serif ${globalStyles.flowTitle}`}>Your Pyarcel</h1>
+        <p className={globalStyles.flowSubtitle}>Review your feelings before packing.</p>
+      </div>
 
+      <div className={globalStyles.flowContent}>
         <div className={styles.cartList}>
           {itemsList.map(({ id, qty, item }) => (
             <div key={id} className={styles.cartItem}>
-              <div>
-                <div className={styles.cartItemName}>{item!.icon} {item!.name}</div>
-                <div className={styles.cartItemPrice}>₹{item!.price}</div>
+              <div className={styles.cartItemName}>
+                {item!.icon} {item!.name}
               </div>
               <div className={styles.cartItemQty}>
                 <button className={styles.qtyBtn} onClick={() => decreaseItem(id)}>-</button>
@@ -90,18 +89,18 @@ export default function CartPage() {
             <div className={styles.couponCode}>LOVE100</div>
             <div className={styles.couponMsg}>"Obviously applied."</div>
           </div>
-          <CheckCircle2 size={24} color="#10b981" />
+          <CheckCircle2 size={24} color="var(--background)" />
         </div>
       </div>
 
-      <div className={styles.stickyFooter}>
+      <div className={globalStyles.flowFooter}>
         <button 
           className={globalStyles.button} 
           onClick={handleNext}
         >
-          PACK MY PYARCEL ❤️
+          PACK MY PYARCEL
         </button>
       </div>
-    </div>
+    </>
   );
 }

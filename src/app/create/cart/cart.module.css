@@ -1,40 +1,15 @@
-.cartPage {
-  background-color: #f4f1eb; /* A bit different background to separate from menu */
-  min-height: 100vh;
-}
-
-.cartContainer {
-  padding: 24px 20px;
-  padding-bottom: 120px;
-}
-
-.cartHeader {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.cartTitle {
-  font-size: 1.5rem;
-  margin: 0;
-  color: var(--foreground);
-}
-
 .cartList {
   background: white;
-  border-radius: var(--radius);
-  padding: 16px;
+  border: 2px solid var(--foreground);
   margin-bottom: 24px;
-  border: 1px solid var(--border);
 }
 
 .cartItem {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px dashed var(--border);
+  padding: 16px;
+  border-bottom: 2px solid var(--foreground);
 }
 
 .cartItem:last-child {
@@ -42,101 +17,102 @@
 }
 
 .cartItemName {
-  font-weight: 500;
-  color: var(--foreground);
-  margin-bottom: 4px;
-}
-
-.cartItemPrice {
   font-family: var(--font-geist-mono);
-  font-size: 0.875rem;
-  color: var(--muted-foreground);
+  font-weight: 600;
+  color: var(--foreground);
+  font-size: 1rem;
 }
 
 .cartItemQty {
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: #fffcf9;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 4px 8px;
+  gap: 16px;
+  background: white;
+  border: 2px solid var(--foreground);
+  padding: 4px;
+  box-shadow: 2px 2px 0 0 var(--foreground);
 }
 
 .qtyBtn {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--foreground);
   font-weight: bold;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+}
+
+.qtyBtn:hover {
+  background: var(--foreground);
+  color: var(--background);
 }
 
 .qtyValue {
-  font-weight: 600;
-  min-width: 16px;
+  font-family: var(--font-geist-mono);
+  font-weight: 700;
+  min-width: 20px;
   text-align: center;
   color: var(--foreground);
 }
 
-/* Bill Details */
 .billDetails {
   background: white;
-  border-radius: var(--radius);
-  padding: 20px 16px;
-  border: 1px solid var(--border);
+  padding: 20px;
+  border: 2px solid var(--foreground);
   font-family: var(--font-geist-mono);
+  box-shadow: 4px 4px 0 0 var(--foreground);
+  margin-bottom: 24px;
 }
 
 .billTitle {
-  font-family: var(--font-geist-sans);
-  font-weight: 600;
-  margin-bottom: 16px;
-  font-size: 1rem;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-style: italic;
+  font-weight: 400;
+  margin-bottom: 20px;
+  color: var(--foreground);
 }
 
 .billRow {
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
-  font-size: 0.875rem;
-  color: var(--muted-foreground);
-}
-
-.billRow.discount {
-  color: #10b981; /* Green */
+  font-size: 1rem;
+  color: var(--foreground);
 }
 
 .billRow.total {
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px dashed var(--border);
-  font-weight: 600;
-  font-size: 1rem;
-  color: var(--foreground);
+  border-top: 2px solid var(--foreground);
+  font-weight: 700;
+  font-size: 1.125rem;
 }
 
 .couponSection {
-  margin-top: 24px;
   padding: 16px;
-  background: #fffaf9;
-  border: 1px dashed var(--primary);
-  border-radius: var(--radius);
+  background: var(--foreground);
+  color: var(--background);
+  border: 2px solid var(--foreground);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .couponCode {
+  font-family: var(--font-geist-mono);
   font-weight: 700;
-  color: var(--primary);
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .couponMsg {
-  font-size: 0.75rem;
-  color: var(--muted-foreground);
+  font-family: var(--font-geist-sans);
+  font-size: 0.85rem;
+  opacity: 0.9;
 }
 
 .emptyState {
@@ -152,15 +128,4 @@
 .emptyIcon {
   font-size: 4rem;
   margin-bottom: 8px;
-}
-
-.stickyFooter {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 16px 20px;
-  background: white;
-  border-top: 1px solid var(--border);
-  z-index: 20;
 }
