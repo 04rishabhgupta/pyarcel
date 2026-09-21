@@ -1,8 +1,22 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./page.module.css";
+import { encodePayload, PyarcelPayload } from "@/lib/compression";
 
 export default function Home() {
+  const samplePayload: PyarcelPayload = {
+    s: "Rishabh",
+    a: false,
+    r: "Sakshi",
+    rel: "SOULMATE",
+    d: "My Heart",
+    i: { "unlimited_love": 1, "head_on_shoulder": 1, "matching_dp": 1 },
+    m: "Just a sample Pyarcel to show you how cute this looks! ❤️",
+    id: "PYR-14300",
+    ts: Date.now(),
+    u: "123456789012"
+  };
+  const sampleLink = `/p/${encodePayload(samplePayload)}`;
   return (
     <main className={`min-h-screen flex flex-col items-center justify-center ${styles.main}`}>
       <div className={styles.hero}>
@@ -21,7 +35,7 @@ export default function Home() {
           <Link href="/create/sender" className={`font-mono ${styles.primaryButton}`}>
             START ORDERING
           </Link>
-          <Link href="/p/example" className={`font-mono ${styles.secondaryButton}`}>
+          <Link href={sampleLink} className={`font-mono ${styles.secondaryButton}`}>
             VIEW SAMPLE RECEIPT
           </Link>
         </div>
