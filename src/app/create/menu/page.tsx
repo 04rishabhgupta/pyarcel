@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { PYARCEL_MENU } from "@/lib/data";
 import { useOrder } from "@/lib/store";
 import styles from "./menu.module.css";
-import { ShoppingBag, ChevronRight } from "lucide-react";
 
 export default function MenuPage() {
   const router = useRouter();
@@ -92,7 +91,7 @@ export default function MenuPage() {
             className={styles.viewCartBtn}
             onClick={() => router.push("/create/cart")}
           >
-            VIEW CART <ShoppingBag size={18} />
+            VIEW CART -&gt;
           </button>
         </div>
       )}
