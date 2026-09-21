@@ -1,23 +1,28 @@
 :root {
-  --background: #fffcf9; /* Soft cream background */
-  --foreground: #2d2a26; /* Soft black */
-  --primary: #f28482; /* Warm coral/pink */
+  --background: #fffcf9;
+  /* Soft cream background */
+  --foreground: #2d2a26;
+  /* Soft black */
+  --primary: #f28482;
+  /* Warm coral/pink */
   --primary-hover: #e27371;
-  --secondary: #f6bd60; /* Warm yellow */
-  --muted: #f4f1eb; /* Off-white for cards/whitespace */
+  --secondary: #f6bd60;
+  /* Warm yellow */
+  --muted: #f4f1eb;
+  /* Off-white for cards/whitespace */
   --muted-foreground: #7d7a75;
   --border: #eae5de;
   --receipt-bg: #fffefe;
   --receipt-text: #1a1a1a;
-  
+
   --font-geist-sans: 'Geist', sans-serif;
   --font-geist-mono: 'Geist Mono', monospace;
   --font-serif: 'Instrument Serif', serif;
 
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
-  --shadow-receipt: 0 10px 40px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
-  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-receipt: 0 10px 40px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+
   --radius: 12px;
 }
 
@@ -35,7 +40,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 500;
   line-height: 1.2;
 }
@@ -59,16 +69,46 @@ button {
   padding: 0 20px;
 }
 
-.text-center { text-align: center; }
-.flex { display: flex; }
-.flex-col { display: flex; flex-direction: column; }
-.items-center { align-items: center; }
-.justify-center { justify-content: center; }
-.justify-between { justify-content: space-between; }
-.gap-2 { gap: 8px; }
-.gap-4 { gap: 16px; }
-.gap-6 { gap: 24px; }
-.gap-8 { gap: 32px; }
+.text-center {
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.gap-4 {
+  gap: 16px;
+}
+
+.gap-6 {
+  gap: 24px;
+}
+
+.gap-8 {
+  gap: 32px;
+}
 
 .font-serif {
   font-family: var(--font-serif);

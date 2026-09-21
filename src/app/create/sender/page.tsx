@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useOrder } from "@/lib/store";
 import styles from "../create.module.css";
-import { Heart } from "lucide-react";
 
 export default function SenderPage() {
   const router = useRouter();
@@ -24,16 +23,13 @@ export default function SenderPage() {
   return (
     <>
       <div className={styles.flowHeader}>
-        <div style={{ marginBottom: 16 }}>
-          <Heart size={32} color="var(--primary)" />
-        </div>
         <h1 className={`font-serif ${styles.flowTitle}`}>Who's ordering?</h1>
         <p className={styles.flowSubtitle}>Don't worry, we won't tell anyone unless you want us to.</p>
       </div>
 
       <div className={styles.flowContent}>
         <div>
-          <label style={{ display: 'block', marginBottom: 8, fontWeight: 500 }}>
+          <label className={styles.label}>
             Your Name
           </label>
           <input 

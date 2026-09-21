@@ -9,9 +9,9 @@ export default function Home() {
         <div className={styles.logoWrapper}>
           <Image src="/logo.svg" alt="Pyarcel Logo" width={140} height={140} priority />
         </div>
-        
+
         <h1 className={`font-serif ${styles.title}`}>Pyarcel</h1>
-        
+
         <div className={`font-mono ${styles.tagline}`}>
           <p>PACK FEELINGS</p>
           <p>DELIVER SMILES</p>

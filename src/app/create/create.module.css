@@ -2,37 +2,60 @@
   min-height: 100vh;
   background-color: var(--background);
   padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .container {
-  max-width: 480px;
-  margin: 0 auto;
+  max-width: 500px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 80px); /* Account for padding */
 }
 
 /* Shared UI elements for the flow */
 .flowHeader {
   margin-bottom: 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .flowTitle {
-  font-size: 2rem;
-  margin-bottom: 8px;
+  font-size: 3.5rem;
+  font-weight: 400;
   color: var(--foreground);
+  margin-bottom: 8px;
+  line-height: 1;
+  font-style: italic;
+  font-family: var(--font-serif);
 }
 
 .flowSubtitle {
-  font-size: 1rem;
-  color: var(--muted-foreground);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: var(--foreground);
+  font-family: var(--font-geist-mono);
+  text-transform: uppercase;
 }
 
 .flowContent {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  font-family: var(--font-geist-mono);
+  text-transform: uppercase;
+  color: var(--foreground);
 }
 
 .flowFooter {
@@ -44,18 +67,17 @@
 .input {
   width: 100%;
   padding: 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border: 1px solid var(--foreground);
+  border-radius: 0;
   font-family: inherit;
   font-size: 1rem;
-  background: white;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  background: transparent;
+  transition: all 0.2s;
 }
 
 .input:focus {
   outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(242, 132, 130, 0.1);
+  background: rgba(0, 0, 0, 0.02);
 }
 
 .checkboxContainer {
@@ -66,9 +88,9 @@
 }
 
 .checkbox {
-  width: 20px;
-  height: 20px;
-  accent-color: var(--primary);
+  width: 16px;
+  height: 16px;
+  accent-color: var(--foreground);
   cursor: pointer;
 }
 
@@ -77,30 +99,31 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 16px;
-  background-color: var(--primary);
-  color: white;
-  border-radius: 100px;
-  font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: 0.05em;
+  padding: 18px;
+  background-color: #000;
+  color: #fff;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  border: 1px solid #000;
   transition: all 0.2s ease;
-  box-shadow: var(--shadow-md);
-  border: none;
+  text-transform: uppercase;
+  font-family: var(--font-geist-mono);
+  border-radius: 0;
+  box-shadow: none;
   cursor: pointer;
 }
 
 .button:hover {
-  background-color: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(242, 132, 130, 0.3);
+  background-color: #222;
+  color: #fff;
+  transform: none;
 }
 
 .button:disabled {
-  opacity: 0.5;
+  background-color: #eee;
+  color: #999;
+  border-color: #eee;
   cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
 }
 
 .buttonSecondary {
@@ -121,25 +144,27 @@
   justify-content: space-between;
   width: 100%;
   padding: 16px 20px;
-  background-color: white;
+  background-color: transparent;
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  font-weight: 500;
-  font-size: 1rem;
+  border-radius: 0;
+  font-size: 0.85rem;
+  font-family: var(--font-geist-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   color: var(--foreground);
   transition: all 0.2s;
   text-align: left;
 }
 
 .selectorButton:hover {
-  border-color: var(--primary);
-  background-color: #fffaf9;
+  border-color: var(--foreground);
+  background-color: rgba(0, 0, 0, 0.02);
 }
 
 .selectorButton.selected {
-  border-color: var(--primary);
-  background-color: #fffaf9;
-  box-shadow: 0 0 0 1px var(--primary);
+  border-color: var(--foreground);
+  background-color: rgba(0, 0, 0, 0.02);
+  box-shadow: 0 0 0 1px var(--foreground);
 }
 
 /* Radio Cards (for destination etc) */
@@ -151,27 +176,27 @@
 
 .radioCard {
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: 0;
   padding: 20px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  background: white;
+  background: transparent;
   cursor: pointer;
   transition: all 0.2s;
   text-align: center;
 }
 
 .radioCard:hover {
-  border-color: var(--primary);
-  background-color: #fffaf9;
+  border-color: var(--foreground);
+  background-color: rgba(0, 0, 0, 0.02);
 }
 
 .radioCard.selected {
-  border-color: var(--primary);
-  background-color: #fffaf9;
-  box-shadow: 0 0 0 1px var(--primary);
+  border-color: var(--foreground);
+  background-color: rgba(0, 0, 0, 0.02);
+  box-shadow: 0 0 0 1px var(--foreground);
 }
 
 .radioIcon {

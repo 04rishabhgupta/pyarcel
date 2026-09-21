@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useOrder } from "@/lib/store";
 import styles from "../create.module.css";
-import { MapPin } from "lucide-react";
 
 const DESTINATIONS = [
   { id: "heart", label: "Their Heart", icon: "❤️" },
@@ -28,9 +27,6 @@ export default function DestinationPage() {
   return (
     <>
       <div className={styles.flowHeader}>
-        <div style={{ marginBottom: 16 }}>
-          <MapPin size={32} color="var(--primary)" />
-        </div>
         <h1 className={`font-serif ${styles.flowTitle}`}>Where are we delivering this Pyarcel?</h1>
         <p className={styles.flowSubtitle}>Just for the vibes. No actual physical address needed.</p>
       </div>

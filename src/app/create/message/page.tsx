@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useOrder } from "@/lib/store";
 import styles from "../create.module.css";
-import { MessageCircleHeart } from "lucide-react";
 
 export default function MessagePage() {
   const router = useRouter();
@@ -21,9 +20,6 @@ export default function MessagePage() {
   return (
     <>
       <div className={styles.flowHeader}>
-        <div style={{ marginBottom: 16 }}>
-          <MessageCircleHeart size={32} color="var(--primary)" />
-        </div>
         <h1 className={`font-serif ${styles.flowTitle}`}>Want to add a little note?</h1>
         <p className={styles.flowSubtitle}>Say something you probably wouldn't say out loud...</p>
       </div>
@@ -48,7 +44,7 @@ export default function MessagePage() {
             textAlign: 'right', 
             marginTop: '8px', 
             fontSize: '0.875rem', 
-            color: message.length >= MAX_CHARS ? 'var(--primary)' : 'var(--muted-foreground)' 
+            color: message.length >= MAX_CHARS ? 'var(--foreground)' : 'var(--muted-foreground)' 
           }}>
             {message.length} / {MAX_CHARS}
           </div>
