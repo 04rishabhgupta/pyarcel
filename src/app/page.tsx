@@ -25,6 +25,16 @@ export default function Home() {
             VIEW SAMPLE RECEIPT
           </Link>
         </div>
+
+        <div className={styles.footerCredits}>
+          <p>
+            Crafted by <a href="https://github.com/04rishabhgupta" target="_blank" rel="noopener noreferrer">Rishabh Gupta</a> for <a href="https://github.com/sakshiichauhan" target="_blank" rel="noopener noreferrer">Sakshi Chauhan</a>.
+          </p>
+          <details className={styles.secretDropdown}>
+            <summary>...</summary>
+            <p>But shhh 🤫 - don't expose me.</p>
+          </details>
+        </div>
       </div>
     </main>
   );

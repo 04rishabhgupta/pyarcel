@@ -84,3 +84,54 @@
 .secondaryButton:hover {
   background-color: rgba(0, 0, 0, 0.04);
 }
+
+.footerCredits {
+  margin-top: 64px;
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+  text-align: center;
+  font-family: var(--font-geist-mono);
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+  line-height: 1.5;
+}
+
+.footerCredits:hover {
+  opacity: 1;
+}
+
+.footerCredits a {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+  color: var(--foreground);
+}
+
+.footerCredits a:hover {
+  text-decoration-style: solid;
+}
+
+.secretDropdown {
+  margin-top: 4px;
+}
+
+.secretDropdown summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-block;
+  opacity: 0.6;
+}
+
+.secretDropdown summary::-webkit-details-marker {
+  display: none;
+}
+
+.secretDropdown summary:hover {
+  opacity: 1;
+}
+
+.secretDropdown p {
+  margin-top: 8px;
+  font-style: italic;
+  font-size: 0.65rem;
+}
