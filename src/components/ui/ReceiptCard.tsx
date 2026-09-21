@@ -77,9 +77,8 @@ export default function ReceiptCard({ payload }: { payload: PyarcelPayload }) {
           <div key={id} className={styles.itemRow}>
             <div className={styles.itemQtyName}>
               <span className={styles.itemQty}>{item.isUnlimited ? "∞" : qty} x</span>
-              <span className={styles.itemName}>{item.name}</span>
+              <span className={styles.itemName}>{item.icon} {item.name}</span>
             </div>
-            <span className={styles.itemPrice}>₹{item.price * qty}</span>
           </div>
         );
       })}
@@ -89,18 +88,22 @@ export default function ReceiptCard({ payload }: { payload: PyarcelPayload }) {
       <div className={styles.sectionTitle}>BILL DETAILS</div>
       <div className={styles.billRow}>
         <span>Item Total</span>
-        <span>₹{itemTotal}</span>
+        <span>₹***</span>
+      </div>
+      <div className={styles.billRow}>
+        <span>Couple Discount</span>
+        <span>99% APPLIED</span>
       </div>
       <div className={styles.billRow}>
         <span>Cuteness Fee</span>
-        <span>₹{cutenessFee}</span>
+        <span>WAIVED</span>
       </div>
 
       <div className={styles.divider} />
       
       <div className={`${styles.billRow} ${styles.billTotal}`}>
         <span>TOTAL</span>
-        <span>₹{finalTotal}</span>
+        <span>PAID WITH LOVE ❤️</span>
       </div>
       
       <div className={styles.row} style={{ marginTop: '16px' }}>
