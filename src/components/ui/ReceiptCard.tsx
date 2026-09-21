@@ -15,6 +15,13 @@ export default function ReceiptCard({ payload }: { payload: PyarcelPayload }) {
     minute: '2-digit'
   });
 
+  const itemTotal = Object.entries(payload.i).reduce((acc, [id, qty]) => {
+    const item = getMenuItem(id);
+    return acc + (item ? item.price * qty : 0);
+  }, 0);
+  const finalTotal = itemTotal === 0 ? 0 : Math.ceil(itemTotal / 10) * 10;
+  const cutenessFee = finalTotal - itemTotal;
+
   return (
     <div className={styles.receiptWrapper}>
       <div className={styles.header}>
@@ -72,7 +79,7 @@ export default function ReceiptCard({ payload }: { payload: PyarcelPayload }) {
               <span className={styles.itemQty}>{item.isUnlimited ? "∞" : qty} x</span>
               <span className={styles.itemName}>{item.name}</span>
             </div>
-            <span className={styles.itemPrice}>₹0.00</span>
+            <span className={styles.itemPrice}>₹{item.price * qty}</span>
           </div>
         );
       })}
@@ -82,40 +89,30 @@ export default function ReceiptCard({ payload }: { payload: PyarcelPayload }) {
       <div className={styles.sectionTitle}>BILL DETAILS</div>
       <div className={styles.billRow}>
         <span>Item Total</span>
-        <span>₹0.00</span>
+        <span>₹{itemTotal}</span>
       </div>
       <div className={styles.billRow}>
-        <span>Love Tax</span>
-        <span>₹0.00</span>
-      </div>
-      <div className={styles.billRow}>
-        <span>Platform Fee</span>
-        <span>₹999.00</span>
-      </div>
-      <div className={styles.billRow}>
-        <span>Platform Discount</span>
-        <span>-₹999.00</span>
-      </div>
-      <div className={styles.billRow}>
-        <span>Delivery Fee</span>
-        <span>₹49.00</span>
-      </div>
-      <div className={styles.billRow}>
-        <span>Cupid Discount</span>
-        <span>-₹49.00</span>
+        <span>Cuteness Fee</span>
+        <span>₹{cutenessFee}</span>
       </div>
 
       <div className={styles.divider} />
       
       <div className={`${styles.billRow} ${styles.billTotal}`}>
         <span>TOTAL</span>
-        <span>₹0.00</span>
+        <span>₹{finalTotal}</span>
       </div>
       
       <div className={styles.row} style={{ marginTop: '16px' }}>
         <span className={styles.label}>PAYMENT METHOD</span>
-        <span className={styles.value}>PURE FEELINGS ❤️</span>
+        <span className={styles.value}>UPI</span>
       </div>
+      {payload.u && (
+        <div className={styles.row}>
+          <span className={styles.label}>TRANSACTION ID</span>
+          <span className={styles.value}>{payload.u}</span>
+        </div>
+      )}
 
       <div className={styles.divider} />
 

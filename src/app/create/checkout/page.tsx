@@ -6,6 +6,14 @@ import { useOrder } from "@/lib/store";
 import styles from "./checkout.module.css";
 import globalStyles from "../create.module.css";
 import { encodePayload } from "@/lib/compression";
+import dynamic from "next/dynamic";
+import { QRCodeSVG } from 'qrcode.react';
+import { getMenuItem } from "@/lib/data";
+
+const HeartbeatSpinner = dynamic(
+  () => import("fancy-react-ui").then((mod) => mod.HeartbeatSpinner),
+  { ssr: false }
+);
 
 const STAGES = [
   "Order Confirmed",
@@ -23,8 +31,25 @@ export default function CheckoutPage() {
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [currentStage, setCurrentStage] = useState(0);
+  const [utr, setUtr] = useState("");
+
+  const itemsList = Object.entries(state.items).map(([id, qty]) => {
+    const item = getMenuItem(id);
+    return { id, qty, item };
+  }).filter((x) => x.item !== undefined);
+
+  const itemTotal = itemsList.reduce((acc, {qty, item}) => acc + (qty * item!.price), 0);
+  const finalTotal = itemTotal === 0 ? 0 : Math.ceil(itemTotal / 10) * 10;
+  
+  const upiId = "04rishabhgupta-1@okaxis";
+  const payeeName = "Rishabh Gupta";
+  const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${finalTotal}&cu=INR&tn=Pyarcel%20Order`;
 
   const handleCheckout = () => {
+    if (utr.trim().length !== 12) {
+      alert("Please enter a valid 12-digit UTR transaction ID.");
+      return;
+    }
     setIsProcessing(true);
 
     // Animate through stages
@@ -46,7 +71,8 @@ export default function CheckoutPage() {
           i: state.items,
           m: state.message,
           id: orderId,
-          ts: Date.now()
+          ts: Date.now(),
+          u: utr
         };
         const encoded = encodePayload(payload);
         router.push(`/receipt?data=${encoded}`);
@@ -57,7 +83,7 @@ export default function CheckoutPage() {
   if (isProcessing) {
     return (
       <div className={styles.processingContainer}>
-        <div className={styles.spinner}></div>
+        <HeartbeatSpinner size={64} color="var(--foreground)" style={{ marginBottom: "32px" }} />
         <h2 className={`font-serif ${styles.processingStage}`}>
           {STAGES[currentStage]}
         </h2>
@@ -79,29 +105,54 @@ export default function CheckoutPage() {
       </div>
 
       <div className={globalStyles.flowContent}>
-        <div className={styles.summaryCard}>
-          <div className={styles.summaryRow}>
-            <span className={styles.summaryLabel}>From</span>
-            <span className={styles.summaryValue}>{state.isAnonymous ? "Someone Special" : state.sender}</span>
-          </div>
-          <div className={styles.summaryRow}>
-            <span className={styles.summaryLabel}>To</span>
-            <span className={styles.summaryValue}>{state.recipient}</span>
-          </div>
-          <div className={styles.summaryRow}>
-            <span className={styles.summaryLabel}>Destination</span>
-            <span className={styles.summaryValue}>{state.destination}</span>
-          </div>
-        </div>
-
-        <div className={styles.paymentSection}>
-          <h3 className={styles.paymentTitle}>Payment Method</h3>
-          <div className={styles.paymentMethod}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <span style={{ fontSize: '1.5rem' }}>❤️</span>
-              <span style={{ fontWeight: 600 }}>Pure Feelings</span>
+        <div className={styles.splitContainer}>
+          <div className={styles.leftCol}>
+            <div className={styles.summaryCard}>
+              <div className={styles.summaryRow}>
+                <span className={styles.summaryLabel}>From</span>
+                <span className={styles.summaryValue}>{state.isAnonymous ? "Someone Special" : state.sender}</span>
+              </div>
+              <div className={styles.summaryRow}>
+                <span className={styles.summaryLabel}>To</span>
+                <span className={styles.summaryValue}>{state.recipient}</span>
+              </div>
+              <div className={styles.summaryRow}>
+                <span className={styles.summaryLabel}>Destination</span>
+                <span className={styles.summaryValue}>{state.destination}</span>
+              </div>
             </div>
-            <span style={{ fontWeight: 600 }}>₹0</span>
+
+            <div className={styles.paymentSection}>
+              <h3 className={styles.paymentTitle}>Payment (₹{finalTotal})</h3>
+              <p className={globalStyles.flowSubtitle} style={{ marginBottom: 16 }}>
+                Scan the QR code or click it to pay via UPI.
+              </p>
+              
+              <a href={upiLink} className={styles.upiLink}>
+                <div className={styles.qrWrapper}>
+                  <QRCodeSVG value={upiLink} size={150} fgColor="var(--foreground)" />
+                </div>
+              </a>
+
+              <div className={styles.utrGroup}>
+                <label className={styles.utrLabel}>Enter 12-Digit UTR</label>
+                <input 
+                  type="text" 
+                  value={utr}
+                  onChange={(e) => setUtr(e.target.value.replace(/\D/g, '').slice(0, 12))}
+                  placeholder="e.g. 123456789012"
+                  className={styles.utrInput} 
+                />
+              </div>
+            </div>
+          </div>
+          
+          <div className={styles.rightCol}>
+            <img 
+              src="/cat-money.png" 
+              alt="Cat asking for money" 
+              className={styles.catImage} 
+            />
           </div>
         </div>
       </div>
@@ -110,8 +161,10 @@ export default function CheckoutPage() {
         <button
           className={globalStyles.button}
           onClick={handleCheckout}
+          disabled={utr.length !== 12}
+          style={{ opacity: utr.length === 12 ? 1 : 0.5 }}
         >
-          PLACE PYARCEL ORDER
+          VERIFY & PLACE ORDER
         </button>
       </div>
     </>

@@ -37,6 +37,10 @@ export default function CartPage() {
     return { id, qty, item };
   }).filter((x) => x.item !== undefined);
 
+  const itemTotal = itemsList.reduce((acc, {qty, item}) => acc + (qty * item!.price), 0);
+  const finalTotal = itemTotal === 0 ? 0 : Math.ceil(itemTotal / 10) * 10;
+  const cutenessFee = finalTotal - itemTotal;
+
   return (
     <div className={styles.cartPage}>
       <div className={styles.cartContainer}>
@@ -68,32 +72,16 @@ export default function CartPage() {
           
           <div className={styles.billRow}>
             <span>Item Total</span>
-            <span>₹0</span>
+            <span>₹{itemTotal}</span>
           </div>
           <div className={styles.billRow}>
-            <span>Love Tax</span>
-            <span>₹0</span>
-          </div>
-          <div className={styles.billRow}>
-            <span>Platform Fee</span>
-            <span>₹999</span>
-          </div>
-          <div className={`${styles.billRow} ${styles.discount}`}>
-            <span>Platform Discount</span>
-            <span>-₹999</span>
-          </div>
-          <div className={styles.billRow}>
-            <span>Delivery Fee</span>
-            <span>₹49</span>
-          </div>
-          <div className={`${styles.billRow} ${styles.discount}`}>
-            <span>Cupid Discount</span>
-            <span>-₹49</span>
+            <span>Cuteness Fee</span>
+            <span>₹{cutenessFee}</span>
           </div>
           
           <div className={`${styles.billRow} ${styles.total}`}>
             <span>TOTAL</span>
-            <span>₹0</span>
+            <span>₹{finalTotal}</span>
           </div>
         </div>
 

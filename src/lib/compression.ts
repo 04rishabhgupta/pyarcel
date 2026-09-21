@@ -10,6 +10,7 @@ export interface PyarcelPayload {
   m: string; // message
   id: string; // unique order id
   ts: number; // timestamp
+  u?: string; // UTR transaction ID
 }
 
 export function encodePayload(payload: PyarcelPayload): string {
