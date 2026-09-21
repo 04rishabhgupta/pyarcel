@@ -28,13 +28,15 @@ export default function RecipientPage({ params }: { params: Promise<{ payload: s
 
   if (error) {
     return (
-      <div className={styles.recipientPage}>
-        <div style={{ textAlign: 'center' }}>
-          <h2 className="font-serif text-2xl">This Pyarcel couldn't be found</h2>
-          <p className="text-muted-foreground mt-4">Looks like Cupid dropped the parcel.</p>
-          <Link href="/" className={globalStyles.button} style={{ marginTop: 24, display: 'inline-block', width: 'auto' }}>
-            CREATE YOUR OWN PYARCEL
-          </Link>
+      <div className={globalStyles.flowContent} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', textAlign: 'center' }}>
+        <div>
+          <h2 className={`font-serif ${globalStyles.flowTitle}`}>This Pyarcel couldn't be found</h2>
+          <p className={globalStyles.flowSubtitle} style={{ marginTop: '16px' }}>Looks like Cupid dropped the parcel.</p>
+          <div style={{ marginTop: '32px' }}>
+            <Link href="/" className={globalStyles.button} style={{ display: 'inline-block', width: 'auto' }}>
+              CREATE YOUR OWN
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -48,15 +50,15 @@ export default function RecipientPage({ params }: { params: Promise<{ payload: s
 
   if (!isOpened) {
     return (
-      <div className={styles.recipientPage}>
+      <div className={globalStyles.flowContent} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', textAlign: 'center' }}>
         <div className={styles.introContainer}>
           <span className={styles.introIcon}>📦</span>
-          <h1 className={`font-serif ${styles.introTitle}`}>
+          <h1 className={`font-serif ${globalStyles.flowTitle}`}>
             {senderName} just sent something your way...
           </h1>
-          <p className={styles.introSubtitle}>Your Pyarcel has arrived.</p>
+          <p className={globalStyles.flowSubtitle} style={{ marginTop: '16px', marginBottom: '32px' }}>Your Pyarcel has arrived.</p>
           
-          <button className={styles.openBtn} onClick={() => setIsOpened(true)}>
+          <button className={globalStyles.button} onClick={() => setIsOpened(true)}>
             TAP TO OPEN
           </button>
         </div>
@@ -65,7 +67,7 @@ export default function RecipientPage({ params }: { params: Promise<{ payload: s
   }
 
   return (
-    <div className={styles.recipientPage} style={{ alignItems: 'flex-start' }}>
+    <div className={globalStyles.flowContent} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh', paddingTop: '40px' }}>
       <div className={styles.receiptReveal}>
         <ReceiptCard payload={data} />
         
@@ -74,8 +76,8 @@ export default function RecipientPage({ params }: { params: Promise<{ payload: s
         </div>
         
         <div style={{ textAlign: 'center', marginTop: 60, paddingBottom: 40 }}>
-          <Link href="/" style={{ color: 'var(--muted-foreground)', textDecoration: 'underline', fontSize: '0.875rem' }}>
-            Create your own Pyarcel
+          <Link href="/" style={{ color: 'var(--foreground)', textDecoration: 'underline', fontSize: '1rem', fontWeight: 'bold' }}>
+            CREATE YOUR OWN PYARCEL
           </Link>
         </div>
       </div>

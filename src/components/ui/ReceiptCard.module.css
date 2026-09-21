@@ -30,16 +30,7 @@
   background-image: radial-gradient(circle at 10px 10px, #fcf8f2 10px, transparent 11px);
 }
 
-.watermark {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 15rem;
-  color: rgba(255, 105, 132, 0.05); /* very faint pink */
-  z-index: -1;
-  pointer-events: none;
-}
+
 
 .header {
   text-align: center;

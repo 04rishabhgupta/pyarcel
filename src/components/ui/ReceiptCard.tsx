@@ -24,7 +24,6 @@ export default function ReceiptCard({ payload }: { payload: PyarcelPayload }) {
 
   return (
     <div className={styles.receiptWrapper}>
-      <div className={styles.watermark}>❤️</div>
       <div className={styles.header}>
         <h2 className={styles.brand}>PYARCEL</h2>
         <div className={styles.subBrand}>PACKED WITH LOVE</div>
