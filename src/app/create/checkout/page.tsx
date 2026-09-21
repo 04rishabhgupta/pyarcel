@@ -20,13 +20,13 @@ const STAGES = [
 export default function CheckoutPage() {
   const router = useRouter();
   const { state } = useOrder();
-  
+
   const [isProcessing, setIsProcessing] = useState(false);
   const [currentStage, setCurrentStage] = useState(0);
 
   const handleCheckout = () => {
     setIsProcessing(true);
-    
+
     // Animate through stages
     let stage = 0;
     const interval = setInterval(() => {
@@ -62,8 +62,8 @@ export default function CheckoutPage() {
           {STAGES[currentStage]}
         </h2>
         <div className={styles.progressBar}>
-          <div 
-            className={styles.progressFill} 
+          <div
+            className={styles.progressFill}
             style={{ width: `${(currentStage / (STAGES.length - 1)) * 100}%` }}
           />
         </div>
@@ -107,8 +107,8 @@ export default function CheckoutPage() {
       </div>
 
       <div className={globalStyles.flowFooter}>
-        <button 
-          className={globalStyles.button} 
+        <button
+          className={globalStyles.button}
           onClick={handleCheckout}
         >
           PLACE PYARCEL ORDER
