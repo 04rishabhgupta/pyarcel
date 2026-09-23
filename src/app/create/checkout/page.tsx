@@ -38,7 +38,8 @@ export default function CheckoutPage() {
   
   const upiId = "04rishabhgupta-1@okaxis";
   const payeeName = "Rishabh Gupta";
-  const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${finalTotal}&cu=INR&tn=Pyarcel%20Order`;
+  const formattedTotal = finalTotal.toFixed(2);
+  const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${formattedTotal}&cu=INR&tn=Pyarcel%20Order`;
 
   const handleCheckout = () => {
     if (utr.trim().length !== 12) {
@@ -130,13 +131,13 @@ export default function CheckoutPage() {
               </div>
 
               <div className={styles.upiAppButtons}>
-                <a href={`gpay://upi/pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${finalTotal}&cu=INR&tn=Pyarcel%20Order`} className={styles.upiAppBtn}>
+                <a href={`gpay://upi/pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${formattedTotal}&cu=INR&tn=Pyarcel%20Order`} className={styles.upiAppBtn}>
                   GPay
                 </a>
-                <a href={`phonepe://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${finalTotal}&cu=INR&tn=Pyarcel%20Order`} className={styles.upiAppBtn}>
+                <a href={`phonepe://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${formattedTotal}&cu=INR&tn=Pyarcel%20Order`} className={styles.upiAppBtn}>
                   PhonePe
                 </a>
-                <a href={`paytmmp://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${finalTotal}&cu=INR&tn=Pyarcel%20Order`} className={styles.upiAppBtn}>
+                <a href={`paytmmp://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${formattedTotal}&cu=INR&tn=Pyarcel%20Order`} className={styles.upiAppBtn}>
                   Paytm
                 </a>
                 <a href={upiLink} className={styles.upiAppBtn}>
