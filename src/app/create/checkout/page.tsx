@@ -126,9 +126,34 @@ export default function CheckoutPage() {
                 Scan the QR code or click it to pay via UPI.
               </p>
               
-              <div className={styles.qrWrapper}>
-                <QRCodeSVG value={upiLink} size={150} fgColor="var(--foreground)" />
+              <div className={styles.qrCard}>
+                <div className={styles.qrHeader}>
+                  <div className={styles.qrAvatarWrapper}>
+                    {/* Using a placeholder avatar since we don't have the exact one */}
+                    <div className={styles.qrAvatarFallback}>RG</div>
+                  </div>
+                  <span className={styles.qrName}>{payeeName}</span>
+                </div>
+                
+                <div className={styles.qrCodeContainer}>
+                  <QRCodeSVG 
+                    value={upiLink} 
+                    size={200} 
+                    fgColor="#000000" 
+                    imageSettings={{
+                      src: "/gpay-icon.svg",
+                      height: 48,
+                      width: 48,
+                      excavate: true,
+                    }}
+                  />
+                </div>
+                
+                <div className={styles.qrFooter}>
+                  UPI ID: {upiId}
+                </div>
               </div>
+              <p className={styles.qrScanText}>Scan to pay with any UPI app</p>
 
               <div className={styles.upiAppButtons}>
                 <a href={`gpay://upi/pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${formattedTotal}&cu=INR&tn=Pyarcel%20Order`} className={styles.upiAppBtn}>
