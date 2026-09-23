@@ -9,7 +9,7 @@ export default function Home() {
     a: false,
     r: "Sakshi",
     rel: "SOULMATE",
-    d: "My Heart",
+    d: "Her Heart",
     i: { "unlimited_love": 1, "head_on_shoulder": 1, "matching_dp": 1 },
     m: "Just a sample Pyarcel to show you how cute this looks! ❤️",
     id: "PYR-14300",

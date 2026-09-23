@@ -125,11 +125,24 @@ export default function CheckoutPage() {
                 Scan the QR code or click it to pay via UPI.
               </p>
               
-              <a href={upiLink} className={styles.upiLink}>
-                <div className={styles.qrWrapper}>
-                  <QRCodeSVG value={upiLink} size={150} fgColor="var(--foreground)" />
-                </div>
-              </a>
+              <div className={styles.qrWrapper}>
+                <QRCodeSVG value={upiLink} size={150} fgColor="var(--foreground)" />
+              </div>
+
+              <div className={styles.upiAppButtons}>
+                <a href={`gpay://upi/pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${finalTotal}&cu=INR&tn=Pyarcel%20Order`} className={styles.upiAppBtn}>
+                  GPay
+                </a>
+                <a href={`phonepe://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${finalTotal}&cu=INR&tn=Pyarcel%20Order`} className={styles.upiAppBtn}>
+                  PhonePe
+                </a>
+                <a href={`paytmmp://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${finalTotal}&cu=INR&tn=Pyarcel%20Order`} className={styles.upiAppBtn}>
+                  Paytm
+                </a>
+                <a href={upiLink} className={styles.upiAppBtn}>
+                  Other Apps
+                </a>
+              </div>
 
               <div className={styles.utrGroup}>
                 <label className={styles.utrLabel}>Enter 12-Digit UTR</label>

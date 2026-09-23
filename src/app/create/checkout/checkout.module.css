@@ -163,13 +163,29 @@
   box-shadow: 4px 4px 0 0 var(--foreground);
 }
 
-.upiLink {
-  display: inline-block;
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.2s;
+.upiAppButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
 }
 
-.upiLink:hover {
+.upiAppBtn {
+  display: inline-block;
+  text-decoration: none;
+  background-color: transparent;
+  color: var(--foreground);
+  border: 1px solid var(--foreground);
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  font-family: var(--font-geist-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+}
+
+.upiAppBtn:hover {
+  background-color: var(--foreground);
+  color: var(--background);
   transform: translateY(-2px);
 }
