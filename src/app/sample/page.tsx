@@ -8,6 +8,7 @@ import globalStyles from "../create/create.module.css";
 import Link from "next/link";
 import Switch from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
+import FloatingDecorations from "@/components/ui/FloatingDecorations";
 
 export default function SamplePage() {
   const [isOpened, setIsOpened] = useState(false);
@@ -63,6 +64,7 @@ export default function SamplePage() {
 
   return (
     <div className={globalStyles.flowContent} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh', paddingTop: '40px', paddingLeft: '20px', paddingRight: '20px' }}>
+      {isBundle && <FloatingDecorations />}
       
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '32px', padding: '16px', background: 'rgba(0,0,0,0.03)', borderRadius: '12px' }}>
         <button onClick={() => setIsBundle(false)} className={cn("font-mono text-sm font-bold", !isBundle ? "text-gray-900" : "text-gray-400")}>

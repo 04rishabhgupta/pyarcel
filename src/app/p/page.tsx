@@ -6,6 +6,7 @@ import ReceiptCard from "@/components/ui/ReceiptCard";
 import styles from "./recipient.module.css";
 import globalStyles from "../create/create.module.css";
 import Link from "next/link";
+import FloatingDecorations from "@/components/ui/FloatingDecorations";
 
 export default function RecipientPage() {
   const [data, setData] = useState<PyarcelPayload | null>(null);
@@ -71,6 +72,7 @@ export default function RecipientPage() {
 
   return (
     <div className={globalStyles.flowContent} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '100vh', paddingTop: '40px', paddingLeft: '20px', paddingRight: '20px' }}>
+      {data.i["all_of_the_above"] && <FloatingDecorations />}
       <div className={styles.receiptReveal}>
         <ReceiptCard payload={data} />
         
