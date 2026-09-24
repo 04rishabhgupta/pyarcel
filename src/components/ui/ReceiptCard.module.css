@@ -1,6 +1,5 @@
 .receiptWrapper {
-  --receipt-bg: #fcf8f2;
-  background: var(--receipt-bg);
+  background: #fcf8f2;
   color: #111;
   font-family: 'Courier New', Courier, monospace;
   padding: 32px 24px;
@@ -11,7 +10,7 @@
   /* Jagged edge top */
   background-image: 
     linear-gradient(to right, transparent 50%, rgba(0,0,0,0.02) 50%),
-    radial-gradient(circle at 10px 0, transparent 10px, var(--receipt-bg) 11px);
+    radial-gradient(circle at 10px 0, transparent 10px, #fcf8f2 11px);
   background-size: 100% 100%, 20px 20px;
   background-position: 0 0, 0 0;
   background-repeat: no-repeat, repeat-x;
@@ -28,7 +27,7 @@
   height: 10px;
   background-size: 20px 20px;
   background-repeat: repeat-x;
-  background-image: radial-gradient(circle at 10px 10px, var(--receipt-bg) 10px, transparent 11px);
+  background-image: radial-gradient(circle at 10px 10px, #fcf8f2 10px, transparent 11px);
 }
 
 
