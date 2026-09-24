@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useOrder } from "@/lib/store";
 import styles from "./checkout.module.css";
 import globalStyles from "../create.module.css";
 import { encodePayload } from "@/lib/compression";
-import { QRCodeSVG } from 'qrcode.react';
 import { getMenuItem } from "@/lib/data";
 import HeartLoader from "@/components/ui/HeartLoader";
+import Script from "next/script";
 
 const STAGES = [
   "Order Confirmed",
@@ -26,7 +26,6 @@ export default function CheckoutPage() {
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [currentStage, setCurrentStage] = useState(0);
-  const [utr, setUtr] = useState("");
 
   const itemsList = Object.entries(state.items).map(([id, qty]) => {
     const item = getMenuItem(id);
@@ -35,20 +34,90 @@ export default function CheckoutPage() {
 
   const itemTotal = itemsList.reduce((acc, {qty, item}) => acc + (qty * item!.price), 0);
   const finalTotal = itemTotal === 0 ? 0 : Math.ceil(itemTotal / 10) * 10;
-  
-  const upiId = "04rishabhgupta-1@okaxis";
-  const payeeName = "Rishabh Gupta";
-  const formattedTotal = finalTotal.toFixed(2);
-  const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${formattedTotal}&cu=INR&tn=Pyarcel%20Order`;
 
-  const handleCheckout = () => {
-    if (utr.trim().length !== 12) {
-      alert("Please enter a valid 12-digit UTR transaction ID.");
-      return;
-    }
+  const handlePayment = async () => {
     setIsProcessing(true);
+    try {
+      const pyarcelOrderId = `PYR-${Math.floor(10000 + Math.random() * 90000)}`;
+      
+      const res = await fetch("/api/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: finalTotal * 100, // paise
+          currency: "INR",
+          receipt: pyarcelOrderId,
+        }),
+      });
 
-    // Animate through stages
+      const order = await res.json();
+
+      if (!res.ok) {
+        throw new Error(order.error || "Failed to create order");
+      }
+
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency,
+        name: "Pyarcel",
+        description: "Gift Delivery Order",
+        order_id: order.order_id,
+        handler: async function (response: any) {
+          try {
+            const verifyRes = await fetch("/api/verify-payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              }),
+            });
+
+            const verifyResult = await verifyRes.json();
+
+            if (verifyResult.success) {
+              startSuccessAnimation(pyarcelOrderId, response.razorpay_payment_id);
+            } else {
+              alert("Payment verification failed. Please contact support.");
+              setIsProcessing(false);
+            }
+          } catch (err) {
+            console.error(err);
+            alert("An error occurred during verification.");
+            setIsProcessing(false);
+          }
+        },
+        prefill: {
+          name: state.sender || "Sender",
+          email: "customer@example.com",
+          contact: "9999999999",
+        },
+        theme: {
+          color: "#F2A900", // Example brand color
+        },
+        modal: {
+          ondismiss: function () {
+            setIsProcessing(false);
+          },
+        },
+      };
+
+      const rzp = new (window as any).Razorpay(options);
+      rzp.on('payment.failed', function (response: any) {
+        alert(`Payment failed: ${response.error.description}`);
+        setIsProcessing(false);
+      });
+      rzp.open();
+    } catch (error: any) {
+      console.error("Payment error:", error);
+      alert(error.message || "Something went wrong.");
+      setIsProcessing(false);
+    }
+  };
+
+  const startSuccessAnimation = (orderId: string, utr: string) => {
     let stage = 0;
     const interval = setInterval(() => {
       stage++;
@@ -57,7 +126,6 @@ export default function CheckoutPage() {
       } else {
         clearInterval(interval);
         // Generate payload and redirect to receipt
-        const orderId = `PYR-${Math.floor(10000 + Math.random() * 90000)}`;
         const payload = {
           s: state.sender,
           a: state.isAnonymous,
@@ -76,7 +144,7 @@ export default function CheckoutPage() {
     }, 1200); // 1.2s per stage
   };
 
-  if (isProcessing) {
+  if (isProcessing && currentStage > 0) {
     return (
       <div className={styles.processingContainer}>
         <div style={{ marginBottom: '32px' }}>
@@ -97,6 +165,7 @@ export default function CheckoutPage() {
 
   return (
     <>
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       <div className={globalStyles.flowHeader}>
         <h1 className={`font-serif ${globalStyles.flowTitle}`}>Almost ready to deliver.</h1>
         <p className={globalStyles.flowSubtitle}>Review your order before sending.</p>
@@ -121,65 +190,14 @@ export default function CheckoutPage() {
             </div>
 
             <div className={styles.paymentSection}>
-              <h3 className={styles.paymentTitle}>Payment (₹{finalTotal})</h3>
-              <p className={globalStyles.flowSubtitle} style={{ marginBottom: 16 }}>
-                Scan the QR code or click it to pay via UPI.
+              <h3 className={styles.paymentTitle}>Payment Summary</h3>
+              <div className={styles.summaryRow}>
+                <span className={styles.summaryLabel}>Total Amount</span>
+                <span className={styles.summaryValue}>₹{finalTotal}</span>
+              </div>
+              <p className={globalStyles.flowSubtitle} style={{ marginTop: 16 }}>
+                You will be redirected to Razorpay to complete your secure payment.
               </p>
-              
-              <div className={styles.qrCard}>
-                <div className={styles.qrHeader}>
-                  <div className={styles.qrAvatarWrapper}>
-                    {/* Using a placeholder avatar since we don't have the exact one */}
-                    <div className={styles.qrAvatarFallback}>RG</div>
-                  </div>
-                  <span className={styles.qrName}>{payeeName}</span>
-                </div>
-                
-                <div className={styles.qrCodeContainer}>
-                  <QRCodeSVG 
-                    value={upiLink} 
-                    size={200} 
-                    fgColor="#000000" 
-                    imageSettings={{
-                      src: "/gpay-icon.svg",
-                      height: 48,
-                      width: 48,
-                      excavate: true,
-                    }}
-                  />
-                </div>
-                
-                <div className={styles.qrFooter}>
-                  UPI ID: {upiId}
-                </div>
-              </div>
-              <p className={styles.qrScanText}>Scan to pay with any UPI app</p>
-
-              <div className={styles.upiAppButtons}>
-                <a href={`gpay://upi/pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${formattedTotal}&cu=INR&tn=Pyarcel%20Order`} className={styles.upiAppBtn}>
-                  GPay
-                </a>
-                <a href={`phonepe://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${formattedTotal}&cu=INR&tn=Pyarcel%20Order`} className={styles.upiAppBtn}>
-                  PhonePe
-                </a>
-                <a href={`paytmmp://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${formattedTotal}&cu=INR&tn=Pyarcel%20Order`} className={styles.upiAppBtn}>
-                  Paytm
-                </a>
-                <a href={upiLink} className={styles.upiAppBtn}>
-                  Other Apps
-                </a>
-              </div>
-
-              <div className={styles.utrGroup}>
-                <label className={styles.utrLabel}>Enter 12-Digit UTR</label>
-                <input 
-                  type="text" 
-                  value={utr}
-                  onChange={(e) => setUtr(e.target.value.replace(/\D/g, '').slice(0, 12))}
-                  placeholder="e.g. 123456789012"
-                  className={styles.utrInput} 
-                />
-              </div>
             </div>
           </div>
           
@@ -196,11 +214,10 @@ export default function CheckoutPage() {
       <div className={globalStyles.flowFooter}>
         <button
           className={globalStyles.button}
-          onClick={handleCheckout}
-          disabled={utr.length !== 12}
-          style={{ opacity: utr.length === 12 ? 1 : 0.5 }}
+          onClick={handlePayment}
+          disabled={isProcessing || finalTotal < 1}
         >
-          VERIFY & PLACE ORDER
+          {isProcessing && currentStage === 0 ? "INITIALIZING..." : `PAY ₹${finalTotal} & PLACE ORDER`}
         </button>
       </div>
     </>
