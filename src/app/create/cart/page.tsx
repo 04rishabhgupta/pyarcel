@@ -40,7 +40,8 @@ export default function CartPage() {
   }).filter((x) => x.item !== undefined);
 
   const itemTotal = itemsList.reduce((acc, {qty, item}) => acc + (qty * item!.price), 0);
-  const finalTotal = itemTotal === 0 ? 0 : Math.ceil(itemTotal / 10) * 10;
+  const hasBundle = itemsList.some(x => x.id === "all_of_the_above");
+  const finalTotal = itemTotal === 0 ? 0 : (hasBundle ? itemTotal : Math.ceil(itemTotal / 10) * 10);
   const cutenessFee = finalTotal - itemTotal;
 
   return (

@@ -16,7 +16,7 @@ export default function Home() {
     ts: Date.now(),
     u: "123456789012"
   };
-  const sampleLink = `/p/${encodePayload(samplePayload)}`;
+  const sampleLink = `/p#${encodePayload(samplePayload)}`;
   return (
     <main className={`min-h-screen flex flex-col items-center justify-center ${styles.main}`}>
       <div className={styles.hero}>

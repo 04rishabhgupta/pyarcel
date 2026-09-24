@@ -15,6 +15,19 @@ export interface Category {
 
 export const PYARCEL_MENU: Category[] = [
   {
+    id: "specials",
+    name: "Specials",
+    items: [
+      { 
+        id: "all_of_the_above", 
+        name: "All of the Above", 
+        description: "For someone extra special. Everything on the menu, perfectly packed into one ultimate bundle.", 
+        icon: "🌟", 
+        price: 69 
+      }
+    ]
+  },
+  {
     id: "love",
     name: "Love",
     items: [

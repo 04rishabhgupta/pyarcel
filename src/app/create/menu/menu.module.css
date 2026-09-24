@@ -260,3 +260,62 @@
   background: var(--background);
   color: var(--foreground);
 }
+.premiumItemCard {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(242, 169, 0, 0.1) 0%, rgba(242, 169, 0, 0.05) 100%);
+  border: 1px solid #F2A900;
+  border-radius: 0;
+  margin-bottom: 24px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 4px 4px 0 0 rgba(242, 169, 0, 0.2);
+}
+
+.premiumItemCard:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 rgba(242, 169, 0, 0.4);
+}
+
+.premiumItemTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.themeSelectorWrapper {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(242, 169, 0, 0.3);
+}
+
+.themeLabel {
+  font-size: 0.85rem;
+  font-family: var(--font-geist-mono);
+  color: var(--foreground);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.themeOptions {
+  display: flex;
+  gap: 12px;
+}
+
+.themeOptionBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s;
+}
+
+.themeOptionBtn:hover {
+  transform: scale(1.1);
+}
+
+.themeOptionBtn.activeTheme {
+  border: 2px solid var(--foreground);
+  box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--foreground);
+}

@@ -8,8 +8,15 @@ import styles from "./menu.module.css";
 
 export default function MenuPage() {
   const router = useRouter();
-  const { state, addItem, decreaseItem, cartTotalItems } = useOrder();
+  const { state, updateState, addItem, decreaseItem, cartTotalItems } = useOrder();
   const [activeCategory, setActiveCategory] = useState(PYARCEL_MENU[0].id);
+
+  const THEMES = [
+    { id: 'yellow', color: '#F2A900' },
+    { id: 'blue', color: '#0070F3' },
+    { id: 'pink', color: '#FF69B4' },
+    { id: 'red', color: '#FF0000' },
+  ];
 
   const scrollToCategory = (id: string) => {
     setActiveCategory(id);
@@ -47,29 +54,53 @@ export default function MenuPage() {
             
             {cat.items.map((item) => {
               const qty = state.items[item.id] || 0;
+              const isPremium = item.id === "all_of_the_above";
               
               return (
-                <div key={item.id} className={styles.itemCard}>
-                  <div className={styles.itemInfo}>
-                    <div className={styles.itemIcon}>{item.icon}</div>
-                    <div className={styles.itemDetails}>
-                      <div className={styles.itemName}>{item.name}</div>
-                      <div className={styles.itemDescription}>{item.description}</div>
-                      <div className={styles.itemPrice}>₹{item.price}</div>
+                <div key={item.id} className={isPremium ? styles.premiumItemCard : styles.itemCard}>
+                  <div className={isPremium ? styles.premiumItemTop : ''}>
+                    <div className={styles.itemInfo}>
+                      <div className={styles.itemIcon}>{item.icon}</div>
+                      <div className={styles.itemDetails}>
+                        <div className={styles.itemName}>{item.name}</div>
+                        <div className={styles.itemDescription}>{item.description}</div>
+                        <div className={styles.itemPrice}>₹{item.price}</div>
+                      </div>
                     </div>
+                    
+                    {qty === 0 ? (
+                      <button className={styles.addBtn} onClick={() => addItem(item.id)}>
+                        + ADD
+                      </button>
+                    ) : (
+                      <div className={styles.quantityControls}>
+                        {isPremium ? (
+                          <button className={styles.qtyBtn} onClick={() => decreaseItem(item.id)}>x</button>
+                        ) : (
+                          <button className={styles.qtyBtn} onClick={() => decreaseItem(item.id)}>-</button>
+                        )}
+                        <span className={styles.qtyValue}>
+                          {item.isUnlimited ? "∞" : (isPremium ? "Added" : qty)}
+                        </span>
+                        {!isPremium && <button className={styles.qtyBtn} onClick={() => addItem(item.id)}>+</button>}
+                      </div>
+                    )}
                   </div>
-                  
-                  {qty === 0 ? (
-                    <button className={styles.addBtn} onClick={() => addItem(item.id)}>
-                      + ADD
-                    </button>
-                  ) : (
-                    <div className={styles.quantityControls}>
-                      <button className={styles.qtyBtn} onClick={() => decreaseItem(item.id)}>-</button>
-                      <span className={styles.qtyValue}>
-                        {item.isUnlimited ? "∞" : qty}
-                      </span>
-                      <button className={styles.qtyBtn} onClick={() => addItem(item.id)}>+</button>
+
+                  {isPremium && qty > 0 && (
+                    <div className={styles.themeSelectorWrapper}>
+                      <div className={styles.themeLabel}>Customize Receipt Theme</div>
+                      <div className={styles.themeOptions}>
+                        {THEMES.map(theme => (
+                          <button 
+                            key={theme.id}
+                            className={`${styles.themeOptionBtn} ${state.theme === theme.id ? styles.activeTheme : ''}`}
+                            style={{ backgroundColor: theme.color }}
+                            onClick={() => updateState({ theme: theme.id })}
+                            aria-label={`Select ${theme.id} theme`}
+                          />
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>

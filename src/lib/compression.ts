@@ -11,6 +11,7 @@ export interface PyarcelPayload {
   id: string; // unique order id
   ts: number; // timestamp
   u?: string; // UTR transaction ID
+  th?: string; // theme
 }
 
 export function encodePayload(payload: PyarcelPayload): string {

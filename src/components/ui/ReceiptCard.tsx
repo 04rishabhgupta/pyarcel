@@ -19,11 +19,39 @@ export default function ReceiptCard({ payload }: { payload: PyarcelPayload }) {
     const item = getMenuItem(id);
     return acc + (item ? item.price * qty : 0);
   }, 0);
-  const finalTotal = itemTotal === 0 ? 0 : Math.ceil(itemTotal / 10) * 10;
+  const hasBundle = payload.i["all_of_the_above"] ? true : false;
+  const finalTotal = itemTotal === 0 ? 0 : (hasBundle ? itemTotal : Math.ceil(itemTotal / 10) * 10);
   const cutenessFee = finalTotal - itemTotal;
 
+  const getThemeStyles = () => {
+    switch(payload.th) {
+      case 'yellow': return { bg: '#FFF9C4', elementColor: '#FBC02D' };
+      case 'blue': return { bg: '#E3F2FD', elementColor: '#1976D2' };
+      case 'pink': return { bg: '#FCE4EC', elementColor: '#C2185B' };
+      case 'red': return { bg: '#FFEBEE', elementColor: '#D32F2F' };
+      default: return { bg: '#fcf8f2', elementColor: 'transparent' };
+    }
+  };
+
+  const themeStyles = getThemeStyles();
+  const isCustom = payload.th && payload.th !== 'default';
+
   return (
-    <div className={styles.receiptWrapper}>
+    <div className={styles.receiptWrapper} style={{ '--receipt-bg': themeStyles.bg } as React.CSSProperties}>
+      
+      {isCustom && (
+        <>
+          <div className={`${styles.decoration} ${styles.topLeft}`} style={{ color: themeStyles.elementColor }}>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2M11 19.93C7.05 19.43 4 16.05 4 12C4 7.95 7.05 4.57 11 4.07V19.93M13 4.07C16.95 4.57 20 7.95 20 12C20 16.05 16.95 19.43 13 19.93V4.07Z"/></svg>
+            <span style={{ fontSize: '24px', position: 'absolute', top: '10px', left: '10px' }}>🌸</span>
+          </div>
+          <div className={`${styles.decoration} ${styles.topRight}`} style={{ color: themeStyles.elementColor }}>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2M11 19.93C7.05 19.43 4 16.05 4 12C4 7.95 7.05 4.57 11 4.07V19.93M13 4.07C16.95 4.57 20 7.95 20 12C20 16.05 16.95 19.43 13 19.93V4.07Z"/></svg>
+            <span style={{ fontSize: '24px', position: 'absolute', top: '10px', right: '10px' }}>🌸</span>
+          </div>
+        </>
+      )}
+
       <div className={styles.header}>
         <h2 className={styles.brand}>PYARCEL</h2>
         <div className={styles.subBrand}>PACKED WITH LOVE</div>

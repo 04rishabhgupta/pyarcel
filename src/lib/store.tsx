@@ -15,6 +15,7 @@ interface OrderState {
   destination: string;
   items: Record<string, number>;
   message: string;
+  theme?: string;
 }
 
 interface OrderContextType {
@@ -34,6 +35,7 @@ const initialState: OrderState = {
   destination: "",
   items: {},
   message: "",
+  theme: "default",
 };
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
@@ -46,13 +48,29 @@ export function OrderProvider({ children }: { children: ReactNode }) {
   };
 
   const addItem = (id: string) => {
-    setState((prev) => ({
-      ...prev,
-      items: {
-        ...prev.items,
-        [id]: (prev.items[id] || 0) + 1,
-      },
-    }));
+    setState((prev) => {
+      // If adding the bundle, clear everything else
+      if (id === "all_of_the_above") {
+        return {
+          ...prev,
+          items: { [id]: 1 }
+        };
+      }
+      
+      // If adding a normal item, but bundle is in cart, clear bundle
+      const newItems = { ...prev.items };
+      if (newItems["all_of_the_above"]) {
+        delete newItems["all_of_the_above"];
+      }
+
+      return {
+        ...prev,
+        items: {
+          ...newItems,
+          [id]: (newItems[id] || 0) + 1,
+        },
+      };
+    });
   };
 
   const decreaseItem = (id: string) => {
