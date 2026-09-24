@@ -1,21 +1,22 @@
 "use client";
 
-import { useEffect, useState, use } from "react";
+import { useEffect, useState } from "react";
 import { decodePayload, PyarcelPayload } from "@/lib/compression";
 import ReceiptCard from "@/components/ui/ReceiptCard";
 import styles from "./recipient.module.css";
-import globalStyles from "../../create/create.module.css";
+import globalStyles from "../create/create.module.css";
 import Link from "next/link";
 
-export default function RecipientPage({ params }: { params: Promise<{ payload: string }> }) {
-  const resolvedParams = use(params);
-  const { payload } = resolvedParams;
-  
+export default function RecipientPage() {
   const [data, setData] = useState<PyarcelPayload | null>(null);
   const [isOpened, setIsOpened] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    // Extract payload from hash fragment (e.g. #payload)
+    const hash = window.location.hash;
+    const payload = hash ? hash.substring(1) : null;
+    
     if (payload) {
       const decoded = decodePayload(payload);
       if (decoded) {
@@ -23,8 +24,10 @@ export default function RecipientPage({ params }: { params: Promise<{ payload: s
       } else {
         setError(true);
       }
+    } else {
+      setError(true);
     }
-  }, [payload]);
+  }, []);
 
   if (error) {
     return (

@@ -21,8 +21,26 @@ function ReceiptContent() {
       const decoded = decodePayload(data);
       setPayload(decoded);
       
-      const url = `${window.location.origin}/p/${data}`;
-      setShareUrl(url);
+      const fullUrl = `${window.location.origin}/p#${data}`;
+      
+      // Default to full URL while shortening
+      setShareUrl(fullUrl);
+      
+      // Shorten the URL
+      fetch('/api/shorten', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: fullUrl })
+      })
+      .then(res => res.json())
+      .then(result => {
+        if (result.shortUrl) {
+          setShareUrl(result.shortUrl);
+        }
+      })
+      .catch(err => {
+        console.error("Failed to shorten url", err);
+      });
     }
   }, [searchParams]);
 
@@ -88,7 +106,7 @@ function ReceiptContent() {
               SHARE
             </button>
             <Link 
-              href={`/p/${searchParams.get("data")}`} 
+              href={`/p#${searchParams.get("data")}`} 
               target="_blank"
               className={`${globalStyles.button} ${globalStyles.buttonSecondary}`}
               style={{ background: 'transparent', border: '1px solid var(--border)' }}
