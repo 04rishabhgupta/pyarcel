@@ -167,9 +167,7 @@ export default function ReceiptCard({ payload }: { payload: PyarcelPayload }) {
       )}
 
       {payload.v ? (
-        <div style={{ padding: '0 24px', margin: '24px 0' }}>
-          <WaveformPlayer url={payload.v} />
-        </div>
+        <WaveformPlayer url={payload.v} orderId={payload.id} />
       ) : (
         <div className={styles.barcodeContainer}>
           <div className={styles.barcodeLines}></div>
