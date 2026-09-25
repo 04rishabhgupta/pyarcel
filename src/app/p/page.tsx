@@ -16,11 +16,27 @@ export default function RecipientPage() {
   useEffect(() => {
     // Extract payload from hash fragment (e.g. #payload)
     const hash = window.location.hash;
-    const payload = hash ? hash.substring(1) : null;
+    const payloadStr = hash ? hash.substring(1) : null;
     
-    if (payload) {
-      const decoded = decodePayload(payload);
-      if (decoded) {
+    if (payloadStr) {
+      const decoded = decodePayload(payloadStr);
+      if (decoded && decoded.sig) {
+        fetch('/api/verify-receipt', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ payload: decoded })
+        })
+        .then(res => res.json())
+        .then(res => {
+          if (res.valid) {
+            setData(decoded);
+          } else {
+            setError(true);
+          }
+        })
+        .catch(() => setError(true));
+      } else if (decoded && decoded.id === 'DEMO-123') {
+        // Allow the sample receipt to pass without signature for demo purposes
         setData(decoded);
       } else {
         setError(true);

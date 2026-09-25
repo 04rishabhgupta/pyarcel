@@ -48,7 +48,8 @@ export default function CheckoutPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: finalTotal * 100, // paise
+          items: state.items,
+          hasVoiceNote: !!state.voiceNoteBlob,
           currency: "INR",
           receipt: pyarcelOrderId,
         }),
@@ -69,6 +70,41 @@ export default function CheckoutPage() {
         order_id: order.order_id,
         handler: async function (response: any) {
           try {
+            let voiceNoteUrl = undefined;
+            if (state.voiceNoteBlob) {
+              const formData = new FormData();
+              formData.append("file", state.voiceNoteBlob);
+              formData.append("order_id", response.razorpay_order_id);
+              formData.append("payment_id", response.razorpay_payment_id);
+              formData.append("signature", response.razorpay_signature);
+              
+              const uploadRes = await fetch("/api/upload-audio", {
+                method: "POST",
+                body: formData,
+              });
+              if (uploadRes.ok) {
+                const blobData = await uploadRes.json();
+                voiceNoteUrl = blobData.url;
+              } else {
+                console.error("Audio upload failed", await uploadRes.json());
+              }
+            }
+
+            const rawPayload = {
+              s: state.sender,
+              a: state.isAnonymous,
+              r: state.recipient,
+              rel: state.relationship,
+              d: state.destination,
+              i: state.items,
+              m: state.message,
+              id: pyarcelOrderId,
+              ts: Date.now(),
+              u: response.razorpay_payment_id,
+              th: state.theme,
+              v: voiceNoteUrl
+            };
+
             const verifyRes = await fetch("/api/verify-payment", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -76,32 +112,20 @@ export default function CheckoutPage() {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
+                payload: rawPayload
               }),
             });
 
             const verifyResult = await verifyRes.json();
 
             if (verifyResult.success) {
-              let voiceNoteUrl = undefined;
-              if (state.voiceNoteBlob) {
-                try {
-                  const formData = new FormData();
-                  formData.append("file", state.voiceNoteBlob);
-                  const uploadRes = await fetch("/api/upload-audio", {
-                    method: "POST",
-                    body: formData,
-                  });
-                  if (uploadRes.ok) {
-                    const blobData = await uploadRes.json();
-                    voiceNoteUrl = blobData.url;
-                  }
-                } catch (e) {
-                  console.error("Audio upload failed", e);
-                }
-              }
-              startSuccessAnimation(pyarcelOrderId, response.razorpay_payment_id, voiceNoteUrl);
+              const signedPayload = {
+                ...rawPayload,
+                sig: verifyResult.signature
+              };
+              startSuccessAnimation(signedPayload);
             } else {
-              alert("Payment verification failed. Please contact support.");
+              alert("Payment verification failed: " + (verifyResult.error || "Unknown error"));
               setIsProcessing(false);
             }
           } catch (err) {
@@ -138,7 +162,7 @@ export default function CheckoutPage() {
     }
   };
 
-  const startSuccessAnimation = (orderId: string, utr: string, vnUrl?: string) => {
+  const startSuccessAnimation = (finalPayload: any) => {
     let stage = 0;
     const interval = setInterval(() => {
       stage++;
@@ -146,22 +170,7 @@ export default function CheckoutPage() {
         setCurrentStage(stage);
       } else {
         clearInterval(interval);
-        // Generate payload and redirect to receipt
-        const payload = {
-          s: state.sender,
-          a: state.isAnonymous,
-          r: state.recipient,
-          rel: state.relationship,
-          d: state.destination,
-          i: state.items,
-          m: state.message,
-          id: orderId,
-          ts: Date.now(),
-          u: utr,
-          th: state.theme,
-          v: vnUrl
-        };
-        const encoded = encodePayload(payload);
+        const encoded = encodePayload(finalPayload);
         router.push(`/receipt?data=${encoded}`);
       }
     }, 1200); // 1.2s per stage

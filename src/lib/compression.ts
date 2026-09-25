@@ -13,6 +13,7 @@ export interface PyarcelPayload {
   u?: string; // UTR transaction ID
   th?: string; // theme
   v?: string; // voicenote URL
+  sig?: string; // HMAC signature
 }
 
 export function encodePayload(payload: PyarcelPayload): string {

@@ -19,28 +19,38 @@ function ReceiptContent() {
     const data = searchParams.get("data");
     if (data) {
       const decoded = decodePayload(data);
-      setPayload(decoded);
-      
-      const fullUrl = `${window.location.origin}/p#${data}`;
-      
-      // Default to full URL while shortening
-      setShareUrl(fullUrl);
-      
-      // Shorten the URL
-      fetch('/api/shorten', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: fullUrl })
-      })
-      .then(res => res.json())
-      .then(result => {
-        if (result.shortUrl) {
-          setShareUrl(result.shortUrl);
-        }
-      })
-      .catch(err => {
-        console.error("Failed to shorten url", err);
-      });
+      if (decoded && decoded.sig) {
+        fetch('/api/verify-receipt', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ payload: decoded })
+        })
+        .then(res => res.json())
+        .then(res => {
+          if (res.valid) {
+            setPayload(decoded);
+            const fullUrl = `${window.location.origin}/p#${data}`;
+            setShareUrl(fullUrl);
+            fetch('/api/shorten', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ url: fullUrl })
+            })
+            .then(r => r.json())
+            .then(result => {
+              if (result.shortUrl) setShareUrl(result.shortUrl);
+            })
+            .catch(err => console.error("Failed to shorten url", err));
+          } else {
+            setPayload(null);
+          }
+        })
+        .catch(() => setPayload(null));
+      } else if (decoded && decoded.id === 'DEMO-123') {
+        setPayload(decoded);
+      } else {
+        setPayload(null);
+      }
     }
   }, [searchParams]);
 

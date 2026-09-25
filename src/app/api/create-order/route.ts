@@ -1,10 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Razorpay from 'razorpay';
+import { PYARCEL_MENU } from '@/lib/data';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { amount, currency = 'INR', receipt } = body;
+    const { items, hasVoiceNote, currency = 'INR', receipt } = body;
+
+    if (!items || typeof items !== 'object') {
+      return NextResponse.json({ error: 'Invalid items.' }, { status: 400 });
+    }
+
+    let itemTotal = 0;
+    let hasBundle = false;
+    for (const [id, qty] of Object.entries(items)) {
+      if (id === "all_of_the_above") hasBundle = true;
+      const category = PYARCEL_MENU.find(c => c.items.some(i => i.id === id));
+      const item = category?.items.find(i => i.id === id);
+      if (item) {
+        itemTotal += item.price * (qty as number);
+      }
+    }
+
+    let finalTotal = itemTotal === 0 ? 0 : (hasBundle ? itemTotal : Math.ceil(itemTotal / 10) * 10);
+    if (hasVoiceNote) {
+      finalTotal += 9;
+    }
+
+    const amount = finalTotal * 100; // in paise
 
     // Validate amount >= 100 paise
     if (!amount || amount < 100) {
