@@ -15,9 +15,9 @@ export default function SamplePage() {
   const [isBundle, setIsBundle] = useState(false);
 
   const samplePayload: PyarcelPayload = {
-    s: "Rishabh",
+    s: "Someone Special",
     a: false,
-    r: "Sakshi",
+    r: "Someone Extra Special",
     rel: "SOULMATE",
     d: "Her Heart",
     i: { "unlimited_love": 1, "head_on_shoulder": 1, "matching_dp": 1 },
@@ -28,9 +28,9 @@ export default function SamplePage() {
   };
 
   const bundlePayload: PyarcelPayload = {
-    s: "Rishabh",
+    s: "Someone Special",
     a: false,
-    r: "Sakshi",
+    r: "Someone Extra Special",
     rel: "SOULMATE",
     d: "Her Heart",
     i: { "all_of_the_above": 1 },

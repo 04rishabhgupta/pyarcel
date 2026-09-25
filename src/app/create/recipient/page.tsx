@@ -44,7 +44,7 @@ export default function RecipientPage() {
           <input
             type="text"
             className={styles.input}
-            placeholder="e.g. Sakshi"
+            placeholder=""
             value={name}
             onChange={(e) => setName(e.target.value)}
           />

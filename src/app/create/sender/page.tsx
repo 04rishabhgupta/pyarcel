@@ -35,7 +35,7 @@ export default function SenderPage() {
           <input 
             type="text" 
             className={styles.input} 
-            placeholder="e.g. Rishabh" 
+            placeholder="" 
             value={name}
             onChange={(e) => setName(e.target.value)}
             disabled={isAnonymous}
