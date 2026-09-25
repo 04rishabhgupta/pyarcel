@@ -14,7 +14,7 @@ export default function MessagePage() {
 
   const handleNext = () => {
     updateState({ message });
-    router.push("/create/checkout");
+    router.push("/create/voicenote");
   };
 
   return (

@@ -16,6 +16,7 @@ interface OrderState {
   items: Record<string, number>;
   message: string;
   theme?: string;
+  voiceNoteBlob?: Blob | null;
 }
 
 interface OrderContextType {
@@ -36,6 +37,7 @@ const initialState: OrderState = {
   items: {},
   message: "",
   theme: "default",
+  voiceNoteBlob: null,
 };
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);

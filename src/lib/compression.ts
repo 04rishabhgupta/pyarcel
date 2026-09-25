@@ -12,6 +12,7 @@ export interface PyarcelPayload {
   ts: number; // timestamp
   u?: string; // UTR transaction ID
   th?: string; // theme
+  v?: string; // voicenote URL
 }
 
 export function encodePayload(payload: PyarcelPayload): string {

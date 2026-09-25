@@ -34,7 +34,10 @@ export default function CheckoutPage() {
 
   const itemTotal = itemsList.reduce((acc, {qty, item}) => acc + (qty * item!.price), 0);
   const hasBundle = itemsList.some(x => x.id === "all_of_the_above");
-  const finalTotal = itemTotal === 0 ? 0 : (hasBundle ? itemTotal : Math.ceil(itemTotal / 10) * 10);
+  let finalTotal = itemTotal === 0 ? 0 : (hasBundle ? itemTotal : Math.ceil(itemTotal / 10) * 10);
+  if (state.voiceNoteBlob) {
+    finalTotal += 9;
+  }
 
   const handlePayment = async () => {
     setIsProcessing(true);
@@ -79,7 +82,24 @@ export default function CheckoutPage() {
             const verifyResult = await verifyRes.json();
 
             if (verifyResult.success) {
-              startSuccessAnimation(pyarcelOrderId, response.razorpay_payment_id);
+              let voiceNoteUrl = undefined;
+              if (state.voiceNoteBlob) {
+                try {
+                  const formData = new FormData();
+                  formData.append("file", state.voiceNoteBlob);
+                  const uploadRes = await fetch("/api/upload-audio", {
+                    method: "POST",
+                    body: formData,
+                  });
+                  if (uploadRes.ok) {
+                    const blobData = await uploadRes.json();
+                    voiceNoteUrl = blobData.url;
+                  }
+                } catch (e) {
+                  console.error("Audio upload failed", e);
+                }
+              }
+              startSuccessAnimation(pyarcelOrderId, response.razorpay_payment_id, voiceNoteUrl);
             } else {
               alert("Payment verification failed. Please contact support.");
               setIsProcessing(false);
@@ -118,7 +138,7 @@ export default function CheckoutPage() {
     }
   };
 
-  const startSuccessAnimation = (orderId: string, utr: string) => {
+  const startSuccessAnimation = (orderId: string, utr: string, vnUrl?: string) => {
     let stage = 0;
     const interval = setInterval(() => {
       stage++;
@@ -138,7 +158,8 @@ export default function CheckoutPage() {
           id: orderId,
           ts: Date.now(),
           u: utr,
-          th: state.theme
+          th: state.theme,
+          v: vnUrl
         };
         const encoded = encodePayload(payload);
         router.push(`/receipt?data=${encoded}`);
@@ -193,6 +214,12 @@ export default function CheckoutPage() {
 
             <div className={styles.paymentSection}>
               <h3 className={styles.paymentTitle}>Payment Summary</h3>
+              {state.voiceNoteBlob && (
+                <div className={styles.summaryRow}>
+                  <span className={styles.summaryLabel}>Voice Note Add-on</span>
+                  <span className={styles.summaryValue}>₹9</span>
+                </div>
+              )}
               <div className={styles.summaryRow}>
                 <span className={styles.summaryLabel}>Total Amount</span>
                 <span className={styles.summaryValue}>₹{finalTotal}</span>

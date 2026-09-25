@@ -1,6 +1,7 @@
 import { PyarcelPayload } from "@/lib/compression";
 import { getMenuItem, PYARCEL_MENU } from "@/lib/data";
 import styles from "./ReceiptCard.module.css";
+import WaveformPlayer from "./WaveformPlayer";
 
 export default function ReceiptCard({ payload }: { payload: PyarcelPayload }) {
   const date = new Date(payload.ts);
@@ -165,10 +166,16 @@ export default function ReceiptCard({ payload }: { payload: PyarcelPayload }) {
         </>
       )}
 
-      <div className={styles.barcodeContainer}>
-        <div className={styles.barcodeLines}></div>
-        <div className={styles.barcodeText}>{payload.id}</div>
-      </div>
+      {payload.v ? (
+        <div style={{ padding: '0 24px', margin: '24px 0' }}>
+          <WaveformPlayer url={payload.v} />
+        </div>
+      ) : (
+        <div className={styles.barcodeContainer}>
+          <div className={styles.barcodeLines}></div>
+          <div className={styles.barcodeText}>{payload.id}</div>
+        </div>
+      )}
 
       <div className={styles.divider} />
       <div style={{ textAlign: 'center', marginTop: 16, fontWeight: 'bold' }}>
