@@ -42,7 +42,7 @@ export default function Home() {
 
         <div className={styles.footerCredits}>
           <p>
-            Crafted by <a href="https://github.com/04rishabhgupta" target="_blank" rel="noopener noreferrer">Rishabh Gupta</a> for <a href="https://github.com/sakshiichauhan" target="_blank" rel="noopener noreferrer">Sakshi Chauhan</a>.
+            Crafted by <a href="https://github.com/04rishabhgupta" target="_blank" rel="noopener noreferrer">Rishabh Gupta</a> for <a href="https://github.com/sakshiichauhan" target="_blank" rel="noopener noreferrer">Someone Special</a>.
           </p>
           <details className={styles.secretDropdown}>
             <summary>...</summary>
