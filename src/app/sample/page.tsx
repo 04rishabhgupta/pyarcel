@@ -38,7 +38,8 @@ export default function SamplePage() {
     id: "PYR-99999",
     ts: Date.now(),
     u: "987654321098",
-    th: "pink"
+    th: "pink",
+    v: "https://www.w3schools.com/html/horse.ogg"
   };
 
   const data = isBundle ? bundlePayload : samplePayload;
