@@ -90,8 +90,7 @@
 
 .itemCard {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   padding: 16px;
   background: transparent;
   border: 1px solid var(--foreground);
@@ -105,11 +104,11 @@
   box-shadow: 4px 4px 0 0 var(--foreground);
 }
 
-.itemInfo {
+.itemTop {
   display: flex;
   gap: 16px;
   align-items: flex-start;
-  flex: 1;
+  width: 100%;
 }
 
 .itemIcon {
@@ -126,6 +125,12 @@
 
 .itemDetails {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.itemHeader {
+  margin-bottom: 12px;
 }
 
 .itemName {
@@ -143,8 +148,21 @@
 
 .itemPrice {
   font-family: var(--font-geist-mono);
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 1.15rem;
   color: var(--foreground);
+}
+
+.itemFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: auto;
+}
+
+.itemAction {
+  display: flex;
+  align-items: center;
 }
 
 .addBtn {
@@ -279,8 +297,9 @@
 
 .premiumItemTop {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: 16px;
+  align-items: flex-start;
+  width: 100%;
 }
 
 .themeSelectorWrapper {

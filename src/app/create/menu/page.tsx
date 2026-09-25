@@ -58,33 +58,38 @@ export default function MenuPage() {
               
               return (
                 <div key={item.id} className={isPremium ? styles.premiumItemCard : styles.itemCard}>
-                  <div className={isPremium ? styles.premiumItemTop : ''}>
-                    <div className={styles.itemInfo}>
-                      <div className={styles.itemIcon}>{item.icon}</div>
-                      <div className={styles.itemDetails}>
+                  <div className={isPremium ? styles.premiumItemTop : styles.itemTop}>
+                    <div className={styles.itemIcon}>{item.icon}</div>
+                    
+                    <div className={styles.itemDetails}>
+                      <div className={styles.itemHeader}>
                         <div className={styles.itemName}>{item.name}</div>
                         <div className={styles.itemDescription}>{item.description}</div>
+                      </div>
+                      
+                      <div className={styles.itemFooter}>
+                        <div className={styles.itemAction}>
+                          {qty === 0 ? (
+                            <button className={styles.addBtn} onClick={() => addItem(item.id)}>
+                              + ADD
+                            </button>
+                          ) : (
+                            <div className={styles.quantityControls}>
+                              {isPremium ? (
+                                <button className={styles.qtyBtn} onClick={() => decreaseItem(item.id)}>x</button>
+                              ) : (
+                                <button className={styles.qtyBtn} onClick={() => decreaseItem(item.id)}>-</button>
+                              )}
+                              <span className={styles.qtyValue}>
+                                {item.isUnlimited ? "∞" : (isPremium ? "Added" : qty)}
+                              </span>
+                              {!isPremium && <button className={styles.qtyBtn} onClick={() => addItem(item.id)}>+</button>}
+                            </div>
+                          )}
+                        </div>
                         <div className={styles.itemPrice}>₹{item.price}</div>
                       </div>
                     </div>
-                    
-                    {qty === 0 ? (
-                      <button className={styles.addBtn} onClick={() => addItem(item.id)}>
-                        + ADD
-                      </button>
-                    ) : (
-                      <div className={styles.quantityControls}>
-                        {isPremium ? (
-                          <button className={styles.qtyBtn} onClick={() => decreaseItem(item.id)}>x</button>
-                        ) : (
-                          <button className={styles.qtyBtn} onClick={() => decreaseItem(item.id)}>-</button>
-                        )}
-                        <span className={styles.qtyValue}>
-                          {item.isUnlimited ? "∞" : (isPremium ? "Added" : qty)}
-                        </span>
-                        {!isPremium && <button className={styles.qtyBtn} onClick={() => addItem(item.id)}>+</button>}
-                      </div>
-                    )}
                   </div>
 
                   {isPremium && qty > 0 && (
